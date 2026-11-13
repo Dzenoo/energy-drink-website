@@ -1,0 +1,32 @@
+/* Placeholder layout until phase 5: one line of text per station, low in the frame. */
+.stations {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.station {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 12vh;
+  padding-inline: 16px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.station[data-active='true'] {
+  opacity: 1;
+}
+
+/* Left padding matches letter-spacing, which also lands after the last letter,
+   so the text stays optically centered. */
+.station__title {
+  margin: 0;
+  padding-left: 0.3em;
+  font:
+    400 0.875rem/1.4 system-ui,
+    sans-serif;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}

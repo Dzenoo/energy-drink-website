@@ -1,0 +1,20 @@
+:root {
+  color-scheme: dark;
+  color: #e8ecf0;
+  background: #050608;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+/* The page never scrolls natively: wheel, swipe and keys move between stations,
+   so native scrolling, pull-to-refresh and browser touch gestures are switched off. */
+body {
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+}
