@@ -31,7 +31,10 @@ const Experience: React.FC = () => (
   >
     <color attach="background" args={[SCENE.background]} />
     <CameraRig />
-    <Can />
+    {/* The loader comes in phase 5; until then the can simply appears once loaded. */}
+    <Suspense fallback={null}>
+      <Can />
+    </Suspense>
     {Perf && (
       <Suspense fallback={null}>
         <Perf position="top-left" />
