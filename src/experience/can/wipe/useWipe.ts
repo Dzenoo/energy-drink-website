@@ -34,8 +34,12 @@ type Brush = {
   from: Vector2 | null;
   /** Where the pointer is now (screen uv). */
   to: Vector2;
-  /** The pointer moved over the can since the last frame. */
-  moved: boolean;
+  /**
+   * The pointer rests on the can. The brush then wipes every frame, moving or
+   * not: pointer events come only on movement, and wiping only on those made a
+   * still or slow hand flicker as the mist came back between them.
+   */
+  onCan: boolean;
   /** Time of the last stroke (s); after a full recovery the map is all zero and the pass can rest. */
   lastStroke: number;
   /** Clock of the wipe (s). */
@@ -88,7 +92,7 @@ export const useWipe = () => {
   const brush = useRef<Brush>({
     from: null,
     to: new Vector2(),
-    moved: false,
+    onCan: false,
     lastStroke: -Infinity,
     time: 0,
   });
@@ -120,12 +124,12 @@ export const useWipe = () => {
     const state = brush.current;
     state.time += delta;
     // Nothing to draw and everything recovered: the map is all zero, so skip the pass.
-    if (!state.moved && state.time - state.lastStroke > WIPE.recovery) return;
+    if (!state.onCan && state.time - state.lastStroke > WIPE.recovery) return;
 
     const { uniforms } = pass;
     uniforms.uPrevious.value = pass.read.texture;
     uniforms.uFade.value = delta / WIPE.recovery;
-    uniforms.uActive.value = state.moved ? 1 : 0;
+    uniforms.uActive.value = state.onCan ? 1 : 0;
     uniforms.uFrom.value.copy(state.from ?? state.to);
     uniforms.uTo.value.copy(state.to);
 
@@ -136,16 +140,24 @@ export const useWipe = () => {
     [pass.read, pass.write] = [pass.write, pass.read];
     CONDENSATION_UNIFORMS.uWipeMap.value = pass.read.texture;
 
-    if (state.moved) {
+    if (state.onCan) {
       state.lastStroke = state.time;
+      // The next stroke continues from here; with a still pointer it is a dot.
       state.from = state.to.clone();
-      state.moved = false;
     }
   });
 
   return useMemo(() => {
     const canWipe = (event: ThreeEvent<PointerEvent>) =>
       event.pointerType !== 'touch' || WIPE_INPUT.touchOnCan;
+    const leave = () => {
+      brush.current.onCan = false;
+      brush.current.from = null;
+    };
+    // A lifted finger stops wiping; a mouse keeps wiping while it rests on the can.
+    const leaveIfTouch = (event: ThreeEvent<PointerEvent>) => {
+      if (event.pointerType === 'touch') leave();
+    };
 
     return {
       onPointerDown: (event: ThreeEvent<PointerEvent>) => {
@@ -162,11 +174,11 @@ export const useWipe = () => {
         toScreenUv(event.pointer, state.to);
         // The first point after entering the can starts a new stroke instead of joining the old one.
         if (!state.from) state.from = state.to.clone();
-        state.moved = true;
+        state.onCan = true;
       },
-      onPointerOut: () => {
-        brush.current.from = null;
-      },
+      onPointerOut: leave,
+      onPointerUp: leaveIfTouch,
+      onPointerCancel: leaveIfTouch,
     };
   }, []);
 };
