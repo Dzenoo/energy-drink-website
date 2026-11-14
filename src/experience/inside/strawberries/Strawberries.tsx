@@ -3,7 +3,7 @@ import { InstancedMesh, Matrix4, Mesh, MeshNormalMaterial } from 'three';
 
 import { preloadModel, useModel } from '@/experience/shared/model/useModel';
 
-import { createLayout } from './lib/layout';
+import { createLayout } from './utils/layout';
 
 const MODEL_URL = '/models/strawberry.glb';
 

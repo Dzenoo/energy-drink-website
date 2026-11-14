@@ -1,7 +1,7 @@
 import { Generator } from 'maath/random';
 import { Matrix4, Quaternion, Vector3 } from 'three';
 
-import { POSITION_CURVE } from '@/experience/camera/lib/curve';
+import { POSITION_CURVE } from '@/experience/camera/utils/curve';
 
 // Where the strawberry pieces float: inside the real can (1 unit = 10 cm), in the
 // lower part where the camera passes them at station 5.

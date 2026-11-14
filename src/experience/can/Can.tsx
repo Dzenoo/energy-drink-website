@@ -5,9 +5,9 @@ import { Mesh, MeshStandardMaterial, SRGBColorSpace } from 'three';
 
 import { preloadModel, useModel } from '@/experience/shared/model/useModel';
 
-import { addCondensation } from './condensation/lib/condensation';
 import { useCondensation } from './condensation/useCondensation';
-import { bakePartTransform } from './lib/bakePartTransform';
+import { addCondensation } from './condensation/utils/condensation';
+import { bakePartTransform } from './utils/bakePartTransform';
 import { useWipe } from './wipe/useWipe';
 
 // Slim 250 ml can from Blender, meshopt-compressed. Scene units: 1 unit = 10 cm,

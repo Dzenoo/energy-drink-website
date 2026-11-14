@@ -14,7 +14,7 @@ import vertexShader from '@/shaders/can/wipe/wipe.vert.glsl';
 import { useScrollStore } from '@/store/scroll/scroll';
 import { WIPE_INPUT } from '@/store/wipe/wipe';
 
-import { CONDENSATION_UNIFORMS } from '../condensation/lib/condensation';
+import { CONDENSATION_UNIFORMS } from '../condensation/utils/condensation';
 
 const WIPE = {
   /** Wipe map size (px); the wipe is soft, so a small map covering the screen is enough. */
