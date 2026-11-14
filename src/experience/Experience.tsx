@@ -5,6 +5,8 @@ import CameraRig from './camera/CameraRig';
 import Can from './can/Can';
 import Liquid from './inside/liquid/Liquid';
 import Strawberries from './inside/strawberries/Strawberries';
+import InnerWall from './inside/wall/InnerWall';
+import Postprocessing from './postprocessing/Postprocessing';
 import Studio from './studio/Studio';
 
 const SCENE = {
@@ -31,16 +33,22 @@ const Experience: React.FC = () => (
     style={{ position: 'fixed', inset: 0 }}
     dpr={SCENE.dpr}
     camera={{ fov: SCENE.fov, near: SCENE.near, far: SCENE.far }}
+    // Tone mapping and antialiasing happen in postprocessing, on the buffer the
+    // scene is drawn into, so the renderer does neither itself.
+    flat
+    gl={{ antialias: false }}
   >
     <color attach="background" args={[SCENE.background]} />
     <CameraRig />
     <Studio />
     <Liquid />
+    <InnerWall />
     {/* The loader comes in phase 5; until then the can simply appears once loaded. */}
     <Suspense fallback={null}>
       <Can />
       <Strawberries />
     </Suspense>
+    <Postprocessing />
     {Perf && (
       <Suspense fallback={null}>
         <Perf position="top-left" />
