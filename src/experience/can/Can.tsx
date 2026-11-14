@@ -8,6 +8,7 @@ import { preloadModel, useModel } from '@/experience/shared/model/useModel';
 import { addCondensation } from './condensation/lib/condensation';
 import { useCondensation } from './condensation/useCondensation';
 import { bakePartTransform } from './lib/bakePartTransform';
+import { useWipe } from './wipe/useWipe';
 
 // Slim 250 ml can from Blender, meshopt-compressed. Scene units: 1 unit = 10 cm,
 // base at y = 0, opening toward +z. The moving parts hang under empties that keep
@@ -58,6 +59,7 @@ const Can: React.FC = () => {
   );
 
   useCondensation();
+  const wipeHandlers = useWipe();
 
   useLayoutEffect(() => {
     // glTF UVs expect textures that are not flipped; the image holds sRGB colors.
@@ -87,7 +89,7 @@ const Can: React.FC = () => {
     });
   }, [scene]);
 
-  return <primitive object={scene} />;
+  return <primitive object={scene} {...wipeHandlers} />;
 };
 
 preloadModel(MODEL_URL);

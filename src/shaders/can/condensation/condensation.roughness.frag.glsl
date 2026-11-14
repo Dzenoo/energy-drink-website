@@ -6,6 +6,13 @@ float condCircumference = COND_TAU * uCondRadius;
 // Screen size of a pixel in units, for smooth drop edges. Taken before any
 // branch, since derivatives need every pixel nearby to run the same code.
 float condPixel = length(fwidth(vCondPosition));
+// Where a hand passed, mist and drops are gone and come back as the wipe fades;
+// smoothstep eases them in instead of a linear fade.
+float condWipe = smoothstep(
+  0.0,
+  1.0,
+  texture2D(uWipeMap, vCondClip.xy / vCondClip.w * 0.5 + 0.5).r
+);
 
 vec3 condSlope = vec3(0.0);
 float condCover = 0.0;
@@ -30,7 +37,8 @@ if (condSteep > 0.0) {
   }
 }
 
-float condMist = uMistRoughness * (1.0 - condTrail);
+condCover *= 1.0 - condWipe;
+float condMist = uMistRoughness * (1.0 - condTrail) * (1.0 - condWipe);
 roughnessFactor = mix(
   clamp(roughnessFactor + condMist, 0.0, 1.0),
   uDropRoughness,

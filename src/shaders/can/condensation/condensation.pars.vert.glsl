@@ -6,3 +6,6 @@ varying vec3 vCondNormal;
 varying vec3 vCondAxisX;
 varying vec3 vCondAxisY;
 varying vec3 vCondAxisZ;
+// Clip-space position, to find this point on the screen in the wipe map; it is
+// divided in the fragment shader, where the division stays correct in perspective.
+varying vec4 vCondClip;

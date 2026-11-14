@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { useScrollStore } from '@/store/scroll/scroll';
+import { WIPE_INPUT } from '@/store/wipe/wipe';
 
 const INPUT = {
   /** Wheel delta (px) a gesture must add up to before it counts as a step; filters small trackpad nudges. */
@@ -59,6 +60,13 @@ const ScrollInput: React.FC = () => {
     };
 
     const onTouchEnd = (event: TouchEvent) => {
+      // A touch that started on the can was wiping it, not scrolling.
+      if (WIPE_INPUT.touchOnCan) {
+        WIPE_INPUT.touchOnCan = false;
+        touchStartY = null;
+        return;
+      }
+
       const endY = event.changedTouches[0]?.clientY;
       if (touchStartY === null || endY === undefined) return;
 

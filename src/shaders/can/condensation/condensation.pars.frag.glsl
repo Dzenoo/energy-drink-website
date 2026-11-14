@@ -3,6 +3,7 @@ varying vec3 vCondNormal;
 varying vec3 vCondAxisX;
 varying vec3 vCondAxisY;
 varying vec3 vCondAxisZ;
+varying vec4 vCondClip;
 
 // Seconds since start; moves the running drops.
 uniform float uCondTime;
@@ -22,6 +23,8 @@ uniform float uRunDensity;
 uniform float uRunSpeed;
 uniform float uRunSize;
 uniform float uTrailLength;
+// How wiped each point of the screen is (red: 0 = misted, 1 = just wiped).
+uniform sampler2D uWipeMap;
 
 const float COND_TAU = 6.28318530718;
 

@@ -1,4 +1,4 @@
-import type { MeshStandardMaterial } from 'three';
+import type { MeshStandardMaterial, Texture } from 'three';
 
 import normalFragment from '@/shaders/can/condensation/condensation.normal.frag.glsl';
 import fragmentPars from '@/shaders/can/condensation/condensation.pars.frag.glsl';
@@ -44,6 +44,8 @@ export const CONDENSATION_UNIFORMS = {
   uRunSpeed: { value: CONDENSATION.runSpeed },
   uRunSize: { value: CONDENSATION.runSize },
   uTrailLength: { value: CONDENSATION.trailLength },
+  // Set by the wipe each frame it runs; until then three.js binds an empty (black) texture: no wipe.
+  uWipeMap: { value: null as Texture | null },
 };
 
 const inject = (source: string, anchor: string, code: string) => {
