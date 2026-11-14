@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react';
 
 import CameraRig from './camera/CameraRig';
 import Can from './can/Can';
+import Liquid from './inside/liquid/Liquid';
 import Strawberries from './inside/strawberries/Strawberries';
 import Studio from './studio/Studio';
 
@@ -34,6 +35,7 @@ const Experience: React.FC = () => (
     <color attach="background" args={[SCENE.background]} />
     <CameraRig />
     <Studio />
+    <Liquid />
     {/* The loader comes in phase 5; until then the can simply appears once loaded. */}
     <Suspense fallback={null}>
       <Can />
