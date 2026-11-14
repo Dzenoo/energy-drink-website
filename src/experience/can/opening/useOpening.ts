@@ -12,7 +12,7 @@ const OPENING = {
   /** How far the tab's ring lifts (degrees); a small lift reads as a press, not a pull. */
   tabLift: 8,
   /** How far the panel swings into the can (degrees). */
-  panelSwing: 70,
+  panelSwing: 120,
 };
 
 /** Pivot empties from Blender: TabPivot sits on the rivet, PanelPivot on the hinge at the back of the opening. */
