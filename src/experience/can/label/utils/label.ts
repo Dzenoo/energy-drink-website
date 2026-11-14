@@ -11,9 +11,10 @@ import vertexMain from '@/shaders/can/label/label.vert.glsl';
 import { extendMaterial, injectAfter } from '../../utils/injectShader';
 
 // Label size on the can (mm): once around the body, and along the profile from
-// the bottom curve to the neck. The label UV spreads evenly over both.
+// the body's bottom edge over the neck to the seam (111 + 8.25 + 5). The label
+// UV spreads evenly over both.
 const LABEL_AROUND = 166.5;
-const LABEL_ALONG = 124.44;
+const LABEL_ALONG = 124.25;
 
 const LABEL = {
   /** Color at the bottom curve: near black with a hint of strawberry red. */
