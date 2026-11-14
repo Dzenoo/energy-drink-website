@@ -4,8 +4,8 @@ import {
   Color,
   DoubleSide,
   ShaderMaterial,
-  UniformsLib,
-  UniformsUtils,
+  type Texture,
+  Vector2,
 } from 'three';
 
 import fragmentShader from '@/shaders/inside/liquid/surface.frag.glsl';
@@ -17,23 +17,34 @@ import { LIQUID } from './utils/liquid';
 /** Segments around the surface disc; the waves live in the shader, so the disc stays flat. */
 const SEGMENTS = 64;
 
-// The drink's surface: dark with soft highlights from above, Snell's window from
-// below. As the camera descends from the opening, the reflection gives way and
-// the surface takes the drink's color for each look direction, together with
-// the backdrop and the fog.
+// The drink's surface: from above, the drink's color under a mirror image of
+// the studio, broken up by swell and by rings from popping bubbles; from below,
+// Snell's window onto the lid and the bright opening, with a mirror of the
+// drink around it. As the camera descends from the opening, the reflection gives way and the
+// surface takes the drink's color for each look direction, together with the
+// backdrop and the fog.
 const LiquidSurface: React.FC = () => {
   const { material, uniforms } = useMemo(() => {
     const uniforms = {
-      // Fog uniforms, filled by three.js: how much the surface fades into the drink.
-      ...UniformsUtils.clone(UniformsLib.fog),
-      // The drink's colors, shared with the backdrop.
+      // The drink's colors and fog, shared with the backdrop and the wall.
       ...DRINK_UNIFORMS,
       uTime: { value: 0 },
-      uDeep: { value: new Color(LIQUID.deep) },
-      uGlow: { value: new Color(LIQUID.glow) },
-      uShine: { value: new Color(LIQUID.shine) },
+      // Set once the studio has rendered its panels; until then three.js binds an empty (black) cube.
+      uEnvironment: { value: null as Texture | null },
+      uReflection: { value: LIQUID.reflection },
       uWaveScale: { value: LIQUID.waveScale },
       uWaveHeight: { value: LIQUID.waveHeight },
+      uWaveSpeed: { value: LIQUID.waveSpeed },
+      uRippleHeight: { value: LIQUID.rippleHeight },
+      uLid: { value: new Color(LIQUID.lid) },
+      uLidHeight: { value: LIQUID.lidHeight },
+      uOpeningCenter: { value: new Vector2(...LIQUID.openingCenter) },
+      uOpeningSize: { value: new Vector2(...LIQUID.openingSize) },
+      uOpeningLight: { value: new Color(LIQUID.openingLight) },
+      uOpeningStrength: { value: LIQUID.openingStrength },
+      uHaloStrength: { value: LIQUID.haloStrength },
+      uHaloSize: { value: LIQUID.haloSize },
+      uWindowEdge: { value: LIQUID.windowEdge },
     };
     const material = new ShaderMaterial({
       vertexShader,
@@ -41,15 +52,16 @@ const LiquidSurface: React.FC = () => {
       uniforms,
       // Seen from above through the opening and from below inside the drink.
       side: DoubleSide,
-      fog: true,
     });
     return { material, uniforms };
   }, []);
 
   useLayoutEffect(() => () => material.dispose(), [material]);
 
-  useFrame((_, delta) => {
+  useFrame(({ scene }, delta) => {
     uniforms.uTime.value += delta;
+    // The studio's cube map, the same one the can's metal mirrors.
+    uniforms.uEnvironment.value = scene.environment;
   });
 
   return (

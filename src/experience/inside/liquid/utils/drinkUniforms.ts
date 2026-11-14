@@ -3,7 +3,7 @@ import { Color } from 'three';
 import { LIQUID } from './liquid';
 
 // One set of uniforms for shaders/inside/liquid/drink.glsl, shared by every
-// material that shows the drink's color (backdrop, surface): set once per frame,
+// material that shows the drink's color (backdrop, surface, wall): set once per frame,
 // and all of them fade into the same picture.
 export const DRINK_UNIFORMS = {
   // Set each frame by Underwater while the camera is in or near the drink.
@@ -17,4 +17,5 @@ export const DRINK_UNIFORMS = {
   uDrinkLightStrength: { value: LIQUID.lightStrength },
   uDrinkLightFocus: { value: LIQUID.lightFocus },
   uDrinkLightDepth: { value: LIQUID.lightDepth },
+  uDrinkDensity: { value: LIQUID.density },
 };

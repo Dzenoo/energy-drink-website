@@ -12,16 +12,36 @@ export const LIQUID = {
   immersionRange: 0.14,
 
   // Surface.
-  /** The drink seen from above: dark red. */
-  deep: '#3a0610',
-  /** Light coming through the surface, seen from below. */
-  glow: '#ff6a7a',
-  /** Highlights on the surface, seen from above. */
-  shine: '#ffd9df',
-  /** Waves per unit; with the speeds in the shader, a slow, small swell. */
-  waveScale: 40,
-  /** How steep the waves are; low keeps the drink calm. */
-  waveHeight: 0.05,
+  /** How strongly the surface mirrors the studio, seen from above (1 = as much as still water); higher makes the panels' reflections read in the dark studio. */
+  reflection: 6,
+  /** Noise cells per unit for the largest waves; 20 makes them about 1 cm long. */
+  waveScale: 20,
+  /** How steep the waves are; low, so the swell stays calm under the rings. */
+  waveHeight: 0.09,
+  /** How fast the waves drift (noise cells per second). */
+  waveSpeed: 0.4,
+  /** How steep the rings from popping bubbles are (0 = no rings); they carry most of the surface's life. */
+  rippleHeight: 1,
+
+  // Surface from below.
+  /** The lid's underside seen through the surface: dark, so the opening stands out. */
+  lid: '#3d0a16',
+  /** Height of the lid (units); the top of the Panel in the model. */
+  lidHeight: 1.3,
+  /** Center of the opening in the lid (x, z in units); from the Panel's bounds in the model. */
+  openingCenter: [0, 0.11] as [number, number],
+  /** Half-size of the opening (x, z in units); from the Panel's bounds in the model. */
+  openingSize: [0.07, 0.065] as [number, number],
+  /** Studio light falling in through the opening. */
+  openingLight: '#deb39d',
+  /** Strength of that light (1 = full white); above 1 it still shines through the fog from deep down. */
+  openingStrength: 6.9,
+  /** Strength of the glow the light leaves on the lid around the opening. */
+  haloStrength: 2.15,
+  /** How far that glow spreads (in opening radii, to about a third); wide, so the whole window glows. */
+  haloSize: 2.5,
+  /** How softly Snell's window turns into the mirror at its edge (0 = hard edge). */
+  windowEdge: 1,
 
   // Inside.
   /** Drink color just under the surface, where the light comes in. */

@@ -19,6 +19,8 @@ uniform vec3 uDrinkLight;
 uniform float uDrinkLightStrength;
 uniform float uDrinkLightFocus;
 uniform float uDrinkLightDepth;
+// How quickly things fade into the drink (per unit).
+uniform float uDrinkDensity;
 
 // `direction` is the normalized look direction, `height` the camera's height (units).
 vec3 drinkColor(vec3 direction, float height) {
@@ -36,4 +38,13 @@ vec3 drinkColor(vec3 direction, float height) {
   float light =
     pow(max(direction.y, 0.0), uDrinkLightFocus) * exp(-depth / uDrinkLightDepth);
   return color + uDrinkLight * (uDrinkLightStrength * light);
+}
+
+// Fades a color into the drink over the distance it is seen through (`span`,
+// units): toward the drink's color in that look direction, which is what the
+// backdrop shows there, so far things melt into it without an outline.
+vec3 drinkFog(vec3 color, vec3 direction, float span, float height) {
+  float density = uDrinkDensity * uDrinkUnder;
+  float fog = 1.0 - exp(-density * density * span * span);
+  return mix(color, drinkColor(direction, height), fog);
 }
