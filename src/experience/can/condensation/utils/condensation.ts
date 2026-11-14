@@ -6,6 +6,8 @@ import vertexPars from '@/shaders/can/condensation/condensation.pars.vert.glsl';
 import roughnessFragment from '@/shaders/can/condensation/condensation.roughness.frag.glsl';
 import vertexMain from '@/shaders/can/condensation/condensation.vert.glsl';
 
+import { extendMaterial, injectAfter } from '../../utils/injectShader';
+
 // Scene units: 1 unit = 10 cm.
 const CONDENSATION = {
   /** Can body radius (units); 0.265 = 26.5 mm. */
@@ -48,36 +50,27 @@ export const CONDENSATION_UNIFORMS = {
   uWipeMap: { value: null as Texture | null },
 };
 
-const inject = (source: string, anchor: string, code: string) => {
-  // A silent miss would leave the can without drops, so a changed three.js chunk fails loudly.
-  if (!source.includes(anchor)) {
-    throw new Error(`Condensation: shader chunk ${anchor} not found`);
-  }
-  return source.replace(anchor, `${anchor}\n${code}`);
-};
-
 /**
- * Adds drops to a standard material: they change its normal and roughness, the
- * rest of the lighting stays three.js's own. Call before the material first renders.
+ * Adds mist and running drops to a standard material: they change its normal and
+ * roughness, the rest of the lighting stays three.js's own. Call before the
+ * material first renders. The roughness part runs after metalness, so effects
+ * that set the base roughness (the label's letters) always come before the mist.
  */
-export const addCondensation = (material: MeshStandardMaterial) => {
-  material.onBeforeCompile = (shader) => {
+export const addCondensation = (material: MeshStandardMaterial) =>
+  extendMaterial(material, 'condensation', (shader) => {
     Object.assign(shader.uniforms, CONDENSATION_UNIFORMS);
-    shader.vertexShader = inject(
-      inject(shader.vertexShader, '#include <common>', vertexPars),
+    shader.vertexShader = injectAfter(
+      injectAfter(shader.vertexShader, '#include <common>', vertexPars),
       '#include <worldpos_vertex>',
       vertexMain,
     );
-    shader.fragmentShader = inject(
-      inject(
-        inject(shader.fragmentShader, '#include <common>', fragmentPars),
-        '#include <roughnessmap_fragment>',
+    shader.fragmentShader = injectAfter(
+      injectAfter(
+        injectAfter(shader.fragmentShader, '#include <common>', fragmentPars),
+        '#include <metalnessmap_fragment>',
         roughnessFragment,
       ),
       '#include <normal_fragment_maps>',
       normalFragment,
     );
-  };
-  // Keeps three.js from reusing a program built without the drops.
-  material.customProgramCacheKey = () => 'condensation';
-};
+  });

@@ -1,4 +1,4 @@
-// Condensation, first part: runs right after roughness is known. Mist makes the
+// Condensation, first part: runs once roughness and metalness are known. Mist makes the
 // cold metal rough; running drops are glossy and wipe a trail of mist away.
 // Keeps the drop slope for the normal part.
 vec3 condNormal = normalize(vCondNormal);

@@ -33,14 +33,33 @@ const PANELS: StudioPanelProps[] = [
     intensity: 1.2,
     color: '#ffffff',
   },
-  // Rim: thin strip behind; separates the can's edge from the dark background.
+  // Rims: thin strips behind, on both sides; they separate the can's edges from the dark background.
   {
     azimuth: 150,
     elevation: 5,
     width: 0.6,
     length: 8,
-    intensity: 2,
+    intensity: 3,
     color: '#cfe0ff',
+  },
+  {
+    azimuth: -150,
+    elevation: 5,
+    width: 0.6,
+    length: 8,
+    intensity: 3,
+    color: '#cfe0ff',
+  },
+  // Front: low and short, behind the camera. The flat body reflects it only at
+  // the label letters' height, and only the bare metal letters show it clearly;
+  // the black print reflects too little to light up.
+  {
+    azimuth: 0,
+    elevation: 2,
+    width: 3,
+    length: 0.6,
+    intensity: 2,
+    color: '#ffffff',
   },
 ];
 

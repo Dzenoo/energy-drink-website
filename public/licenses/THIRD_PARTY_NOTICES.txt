@@ -9,7 +9,16 @@ MurmurHash3 (32-bit finalizer)
 Author: Austin Appleby
 License: Public domain
 Source: https://github.com/aappleby/smhasher (src/MurmurHash3.cpp)
-Used in: src/shaders/can/condensation/condensation.pars.frag.glsl (condMix)
+Used in: src/shaders/can/condensation/hash.glsl (hashMix)
 
   "MurmurHash3 was written by Austin Appleby, and is placed in the public
   domain. The author hereby disclaims copyright to this source code."
+
+--------------------------------------------------------------------------------
+
+Oswald (font, variable weight)
+Author: Copyright 2016 The Oswald Project Authors
+        (https://github.com/googlefonts/OswaldFont)
+License: SIL Open Font License 1.1 (full text: OFL-Oswald.txt)
+Source: Google Fonts, packaged by Fontsource (@fontsource-variable/oswald)
+Used in: the text on the can's label (src/experience/can/label/utils/labelText.ts)
