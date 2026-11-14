@@ -1,10 +1,10 @@
 import { useFrame } from '@react-three/fiber';
 import { damp } from 'maath/easing';
-import { MathUtils, Vector3 } from 'three';
+import { Vector3 } from 'three';
 
-import { SCROLL, STATION_COUNT, useScrollStore } from '@/store/scroll/scroll';
+import { SCROLL, useScrollStore } from '@/store/scroll/scroll';
 
-import { POSITION_CURVE, TARGET_CURVE } from './utils/curve';
+import { POSITION_CURVE, progressToCurveT, TARGET_CURVE } from './utils/curve';
 
 const CAMERA_RIG = {
   /** Spring time (s) to roughly reach the next station; longer feels heavier and smoother. */
@@ -20,8 +20,7 @@ const CameraRig: React.FC = () => {
     const { station } = useScrollStore.getState();
     damp(SCROLL, 'progress', station, CAMERA_RIG.smoothTime, delta);
 
-    // Clamped because getPoint reads past the last pose for t > 1.
-    const t = MathUtils.clamp(SCROLL.progress / (STATION_COUNT - 1), 0, 1);
+    const t = progressToCurveT(SCROLL.progress);
     POSITION_CURVE.getPoint(t, camera.position);
     camera.lookAt(TARGET_CURVE.getPoint(t, lookTarget));
   });
