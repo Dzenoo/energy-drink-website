@@ -1,0 +1,15 @@
+THIRD-PARTY NOTICES
+
+This site includes code written by others. Each entry names the work, its
+author, its license and where it is used.
+
+--------------------------------------------------------------------------------
+
+MurmurHash3 (32-bit finalizer)
+Author: Austin Appleby
+License: Public domain
+Source: https://github.com/aappleby/smhasher (src/MurmurHash3.cpp)
+Used in: src/shaders/can/condensation/condensation.pars.frag.glsl (condMix)
+
+  "MurmurHash3 was written by Austin Appleby, and is placed in the public
+  domain. The author hereby disclaims copyright to this source code."
