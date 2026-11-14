@@ -1,5 +1,5 @@
 import { useLayoutEffect } from 'react';
-import { Mesh, MeshNormalMaterial } from 'three';
+import { Mesh, MeshStandardMaterial } from 'three';
 
 import { preloadModel, useModel } from '@/experience/shared/model/useModel';
 
@@ -9,15 +9,33 @@ import { preloadModel, useModel } from '@/experience/shared/model/useModel';
 // hinge at the back of the opening.
 const MODEL_URL = '/models/can.glb';
 
-// Normal colors need no lights, which do not exist yet; real materials come in phase 2.
-const placeholderMaterial = new MeshNormalMaterial();
+// Materials are matched to the model by the names given in Blender. They keep
+// those names, so matching again (React runs effects twice in development) still works.
+const metalMaterial = new MeshStandardMaterial({
+  name: 'Metal',
+  // Cool aluminium; the studio panels give it its highlights.
+  color: '#d4d8dd',
+  metalness: 1,
+  roughness: 0.3,
+});
+// Flat color until the label texture exists; low roughness keeps the panel highlights sharp.
+const labelMaterial = new MeshStandardMaterial({
+  name: 'Label',
+  color: '#9e1b32',
+  metalness: 0.5,
+  roughness: 0.2,
+});
 
 const Can: React.FC = () => {
   const { scene } = useModel(MODEL_URL);
 
   useLayoutEffect(() => {
     scene.traverse((object) => {
-      if (object instanceof Mesh) object.material = placeholderMaterial;
+      if (!(object instanceof Mesh)) return;
+      object.material =
+        object.material.name === labelMaterial.name
+          ? labelMaterial
+          : metalMaterial;
     });
   }, [scene]);
 
