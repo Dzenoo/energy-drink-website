@@ -8,6 +8,7 @@ import { addCondensation } from './condensation/utils/condensation';
 import { useLabelText } from './label/useLabelText';
 import { addLabel } from './label/utils/label';
 import { useOpening } from './opening/useOpening';
+import { useSpin } from './spin/useSpin';
 import { bakePartTransform } from './utils/bakePartTransform';
 import { useWipe } from './wipe/useWipe';
 
@@ -52,6 +53,7 @@ const Can: React.FC = () => {
   useLabelText();
   useCondensation();
   useOpening(scene);
+  useSpin(scene);
   const wipeHandlers = useWipe();
 
   useLayoutEffect(() => {
