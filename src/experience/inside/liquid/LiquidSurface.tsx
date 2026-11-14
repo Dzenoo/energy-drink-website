@@ -11,26 +11,27 @@ import {
 import fragmentShader from '@/shaders/inside/liquid/surface.frag.glsl';
 import vertexShader from '@/shaders/inside/liquid/surface.vert.glsl';
 
-import { immersion } from './utils/immersion';
-import { IMMERSION, LIQUID } from './utils/liquid';
+import { DRINK_UNIFORMS } from './utils/drinkUniforms';
+import { LIQUID } from './utils/liquid';
 
 /** Segments around the surface disc; the waves live in the shader, so the disc stays flat. */
 const SEGMENTS = 64;
 
 // The drink's surface: dark with soft highlights from above, Snell's window from
 // below. As the camera descends from the opening, the reflection gives way and
-// the surface takes the drink's inside color, together with background and fog.
+// the surface takes the drink's color for each look direction, together with
+// the backdrop and the fog.
 const LiquidSurface: React.FC = () => {
   const { material, uniforms } = useMemo(() => {
     const uniforms = {
-      // Fog uniforms, filled by three.js, so the surface fades into the drink like the rest.
+      // Fog uniforms, filled by three.js: how much the surface fades into the drink.
       ...UniformsUtils.clone(UniformsLib.fog),
+      // The drink's colors, shared with the backdrop.
+      ...DRINK_UNIFORMS,
       uTime: { value: 0 },
       uDeep: { value: new Color(LIQUID.deep) },
       uGlow: { value: new Color(LIQUID.glow) },
       uShine: { value: new Color(LIQUID.shine) },
-      uInside: { value: new Color(LIQUID.shallow) },
-      uApproach: { value: 0 },
       uWaveScale: { value: LIQUID.waveScale },
       uWaveHeight: { value: LIQUID.waveHeight },
     };
@@ -47,9 +48,8 @@ const LiquidSurface: React.FC = () => {
 
   useLayoutEffect(() => () => material.dispose(), [material]);
 
-  useFrame(({ camera }, delta) => {
+  useFrame((_, delta) => {
     uniforms.uTime.value += delta;
-    uniforms.uApproach.value = immersion(camera.position, IMMERSION);
   });
 
   return (

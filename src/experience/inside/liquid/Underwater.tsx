@@ -1,29 +1,19 @@
 import { useFrame, useThree } from '@react-three/fiber';
 import { useLayoutEffect, useMemo, useRef } from 'react';
-import { Color, FogExp2, MathUtils } from 'three';
+import { FogExp2, MathUtils } from 'three';
 
+import { DRINK_UNIFORMS } from './utils/drinkUniforms';
 import { immersion } from './utils/immersion';
 import { IMMERSION, LIQUID } from './utils/liquid';
 
-// Inside the drink there is no real volume: background and fog take the drink's
-// color, darker with depth, so the can's inner walls vanish into it. They turn
-// while the camera descends from the opening, together with the surface, so the
-// screen is all drink before the camera goes under. The fog is always on the
-// scene and only its density changes: adding or removing fog would rebuild every
-// shader in the middle of the dive.
+// Tracks how far the camera is into the drink and turns the scene with it: the
+// drink's shaders read it from the shared uniforms, and three.js's own materials
+// fade into the fog. The fog is always on the scene and only its density
+// changes: adding or removing fog would rebuild every shader in the middle of
+// the dive.
 const Underwater: React.FC = () => {
   const scene = useThree((state) => state.scene);
   const fog = useMemo(() => new FogExp2('#000000', 0), []);
-  const colors = useMemo(
-    () => ({
-      shallow: new Color(LIQUID.shallow),
-      bottom: new Color(LIQUID.bottom),
-      drink: new Color(),
-    }),
-    [],
-  );
-  /** The studio's background color, taken once, so it can be restored outside the drink. */
-  const studio = useRef<Color | null>(null);
   /** Immersion last frame; out of the drink twice in a row, nothing changes. */
   const lastUnder = useRef(0);
 
@@ -35,24 +25,20 @@ const Underwater: React.FC = () => {
   }, [scene, fog]);
 
   useFrame(({ camera }) => {
-    const background = scene.background;
-    if (!(background instanceof Color)) return;
-    studio.current ??= background.clone();
-
     const under = immersion(camera.position, IMMERSION);
     if (under === 0 && lastUnder.current === 0) return;
     lastUnder.current = under;
+    DRINK_UNIFORMS.uDrinkUnder.value = under;
 
-    // Above the surface the depth is 0: the drink's color right under it.
+    // Fog has one color for the whole screen: the drink's color at the camera's
+    // own depth, which is what the backdrop shows straight ahead.
     const depth = Math.max(LIQUID.height - camera.position.y, 0);
-    colors.drink.lerpColors(
-      colors.shallow,
-      colors.bottom,
-      MathUtils.smoothstep(depth, 0, LIQUID.depthRange),
+    fog.color.lerpColors(
+      DRINK_UNIFORMS.uDrinkShallow.value,
+      DRINK_UNIFORMS.uDrinkBottom.value,
+      MathUtils.smoothstep(depth, 0, DRINK_UNIFORMS.uDrinkDepthRange.value),
     );
-    fog.color.copy(colors.drink);
     fog.density = LIQUID.density * under;
-    background.lerpColors(studio.current, colors.drink, under);
   });
 
   return null;

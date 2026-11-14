@@ -32,6 +32,16 @@ export const LIQUID = {
   depthRange: 0.8,
   /** Fog density in the drink (per unit); things fade out over a few centimetres. */
   density: 3,
+  /** How far the eye sees into the drink (units): looking up shows the color that much shallower, looking down that much deeper. */
+  reach: 0.45,
+  /** Color of the light pouring in from above. */
+  light: '#ff8a7a',
+  /** Strength of that light straight overhead, right under the surface (0 = none). */
+  lightStrength: 0.5,
+  /** How tightly the light gathers around straight up (exponent); higher is a smaller, sharper glow. */
+  lightFocus: 2.5,
+  /** Depth (units) where the light has faded to about a third (1/e). */
+  lightDepth: 0.6,
 };
 
 /** One set of settings for surface, background and fog, so they turn together. */
