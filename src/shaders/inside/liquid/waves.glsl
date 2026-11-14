@@ -37,7 +37,8 @@ vec2 waveGradient(ivec2 cell) {
 // Slope (d/dx, d/dy) of gradient noise at p, worked out exactly from the
 // interpolation instead of sampling the noise three times. Gradient noise, not
 // value noise: its hills do not follow the grid of cells, so the surface reads
-// as water instead of blotches.
+// as water instead of blotches. The technique (gradient noise with analytic
+// derivatives) is the one described by Inigo Quilez; the code is written here.
 vec2 noiseSlope(vec2 p) {
   vec2 corner = floor(p);
   vec2 f = p - corner;
