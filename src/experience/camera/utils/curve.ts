@@ -31,9 +31,10 @@ const POSES: readonly Pose[] = [
   { position: [0, 1.09, 0.12], target: [0.05, 0.86, 0], station: true },
   // Bubbles: mid-depth, looking up toward the light from the surface.
   { position: [0, 0.8, 0], target: [0.2, 1.1, -0.2], station: true },
-  // Strawberry: near the bottom, drifting past the pieces; looking back (-z),
-  // the way the camera keeps facing all the way out.
-  { position: [0.1, 0.4, -0.05], target: [0.1, 0.45, -0.35], station: true },
+  // Strawberry: low in the can, by the front wall, looking back (-z) across its
+  // whole width at the pieces placed for this shot (strawberries/utils/layout.ts);
+  // the camera keeps facing that way all the way out.
+  { position: [0.06, 0.45, 0.16], target: [-0.02, 0.46, -0.2], station: true },
   // Rising toward the opening, looking back and a little up.
   { position: [0.02, 0.95, 0.09], target: [0.02, 1.05, -0.25] },
   // Over the drink again, still looking back.

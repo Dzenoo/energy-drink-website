@@ -16,23 +16,13 @@ import fragmentShader from '@/shaders/inside/strawberries/strawberry.frag.glsl';
 import vertexShader from '@/shaders/inside/strawberries/strawberry.vert.glsl';
 
 import { createLayout } from './utils/layout';
+import { PIECES } from './utils/pieces';
 import { STRAWBERRY_UNIFORMS } from './utils/strawberry';
 
 const MODEL_URL = '/models/strawberry.glb';
 
 /** Name the cut faces' material has in the model; everything else is skin. */
 const FLESH_MATERIAL = 'Flesh';
-
-/**
- * Piece types (node names in the model), how many of each float in the drink,
- * and where the whole fruit's axis passes through the piece (x, z in model
- * units, measured on the model): the seeds and the core are laid out around it.
- */
-const PIECES = [
-  { node: 'StrawberryHalf', count: 4, axis: [-0.42, 0] },
-  { node: 'StrawberryQuarter', count: 5, axis: [-0.42, 0.42] },
-  { node: 'StrawberrySlice', count: 6, axis: [-0.5, 0] },
-] as const;
 
 /** The skin or the cut face of one piece type; `flesh` picks the pattern in the shader. */
 const createMaterial = (axis: readonly [number, number], flesh: boolean) =>
@@ -59,7 +49,7 @@ const Strawberries: React.FC = () => {
   // One instanced mesh per piece type and part (skin, cut face): every piece of
   // the drink takes 6 draw calls in total, however many pieces there are.
   const batches = useMemo(() => {
-    const layout = createLayout(PIECES.map(({ count }) => count));
+    const layout = createLayout();
     const instanceMatrix = new Matrix4();
 
     return PIECES.flatMap(({ node, axis }, index) => {
