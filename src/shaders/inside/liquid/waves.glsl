@@ -13,24 +13,11 @@ uniform float uWaveSpeed;
 // How steep the rings from popping bubbles are.
 uniform float uRippleHeight;
 
-// Offset that makes every cell coordinate positive: turning a negative int into
-// a uint is not guaranteed to keep its bits in WebGL 2.
-const int WAVE_CELL_OFFSET = 65536;
-
-// One stable random number in [0, 1] per noise cell. A light integer mix: the
-// noise reads four cells per layer for every pixel of the surface.
-float waveCell(ivec2 cell) {
-  uvec2 key = uvec2(cell + WAVE_CELL_OFFSET);
-  uint h = key.x * 0x9e3779b1u ^ key.y * 0x85ebca77u;
-  h ^= h >> 15u;
-  h *= 0x2c1b3c6du;
-  h ^= h >> 12u;
-  return float(h) / 4294967295.0;
-}
+#include "../../noise/cellValue.glsl"
 
 // A unit direction per noise cell: the way the noise climbs at that corner.
 vec2 waveGradient(ivec2 cell) {
-  float angle = waveCell(cell) * 6.2831853;
+  float angle = cellValue(cell) * 6.2831853;
   return vec2(cos(angle), sin(angle));
 }
 
@@ -90,7 +77,7 @@ vec2 rippleSlope(vec2 position) {
     // A new random place for every life of every ring.
     ivec2 seed = ivec2(int(floor(clock)), i);
     vec2 center =
-      (vec2(waveCell(seed), waveCell(seed + ivec2(0, RIPPLES))) - 0.5) *
+      (vec2(cellValue(seed), cellValue(seed + ivec2(0, RIPPLES))) - 0.5) *
       (2.0 * RIPPLE_AREA);
 
     vec2 offset = position - center;
