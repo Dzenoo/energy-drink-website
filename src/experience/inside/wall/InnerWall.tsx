@@ -1,4 +1,3 @@
-import { useFrame, useThree } from '@react-three/fiber';
 import { useLayoutEffect, useMemo, useRef } from 'react';
 import {
   Color,
@@ -10,6 +9,7 @@ import {
   Vector3,
 } from 'three';
 
+import { useDrinkOnly } from '@/experience/inside/liquid/useDrinkOnly';
 import { DRINK_UNIFORMS } from '@/experience/inside/liquid/utils/drinkUniforms';
 import { LIQUID } from '@/experience/inside/liquid/utils/liquid';
 import fragmentShader from '@/shaders/inside/wall/wall.frag.glsl';
@@ -22,9 +22,6 @@ import { WALL } from './utils/wall';
 // surface: metal that shows through the drink and fades into it with distance.
 // It gives the drink a place and a size, and the surface an edge to meet.
 const InnerWall: React.FC = () => {
-  const gl = useThree((state) => state.gl);
-  const scene = useThree((state) => state.scene);
-  const camera = useThree((state) => state.camera);
   const mesh = useRef<Mesh>(null);
 
   const { geometry, material } = useMemo(() => {
@@ -70,21 +67,7 @@ const InnerWall: React.FC = () => {
     [geometry, material],
   );
 
-  // Hidden in the studio, so its shader would first be built at the moment of
-  // the dive and stall it. Built here instead, on load.
-  useLayoutEffect(() => {
-    const wall = mesh.current;
-    if (!wall) return;
-    wall.visible = true;
-    gl.compile(wall, camera, scene);
-    wall.visible = false;
-  }, [gl, scene, camera]);
-
-  useFrame(() => {
-    // From the studio the can's shell hides it: not drawn at all.
-    if (mesh.current)
-      mesh.current.visible = DRINK_UNIFORMS.uDrinkUnder.value > 0;
-  });
+  useDrinkOnly(mesh);
 
   return (
     <mesh ref={mesh} geometry={geometry} material={material} visible={false} />
