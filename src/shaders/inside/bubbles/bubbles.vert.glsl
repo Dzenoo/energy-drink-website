@@ -1,19 +1,28 @@
 #include "../liquid/drink.glsl"
 
-// Per bubble, all in [0, 1]: where around the can's axis (x), how far from it
-// (y), where in its rise it starts (z), how large it is (w).
+// Per bubble, all in [0, 1]: where around the cloud's center (x), how far from
+// it (y), where in its rise it starts (z), how large it is (w).
 attribute vec4 aSeed;
 
 // Seconds since start.
 uniform float uTime;
-// Farthest a bubble starts from the can's axis (units).
+// Middle of the cloud (x, z in units) and the farthest a bubble starts from it (units).
+uniform vec2 uBubbleCenter;
 uniform float uBubbleRadius;
+// Height (units) where the bubbles are born; they rise from there to the surface.
+uniform float uBubbleFloor;
 // Radius of the largest bubble (units).
 uniform float uBubbleSize;
-// Seconds an average bubble takes from the bottom to the surface.
+// Seconds an average bubble takes from the floor to the surface.
 uniform float uBubbleRiseTime;
+// How the speed changes on the way up: above 0 a bubble speeds up toward the
+// surface, below 0 it slows down and lingers under it (-1 to 1).
+uniform float uBubbleQuicken;
 // How far a bubble drifts sideways on its way up (units).
 uniform float uBubbleSway;
+// Distance from the camera (units) where a bubble starts to fade (x) and where
+// it is gone (y), so none pops against the lens.
+uniform vec2 uBubbleNearFade;
 
 // Corner of the bubble's square: (-1, -1) to (1, 1).
 varying vec2 vCorner;
@@ -21,13 +30,10 @@ varying vec2 vCorner;
 varying float vLight;
 
 const float TURN = 6.2831853;
-// Share of the rise spent growing from nothing at the bottom, and where the
+// Share of the rise spent growing from nothing at the floor, and where the
 // bubble bursts at the surface.
 const float BORN = 0.04;
 const float BURST = 0.985;
-// Distance from the camera (units) where a bubble starts to fade and where it
-// is gone, so none pops against the lens.
-const vec2 NEAR_FADE = vec2(0.07, 0.025);
 // Below this share of its light a bubble is not drawn at all.
 const float UNSEEN = 0.01;
 
@@ -37,13 +43,15 @@ void main() {
   float pace = mix(0.6, 1.4, aSeed.w) / uBubbleRiseTime;
   float life = fract(aSeed.z + uTime * pace);
 
-  // Speeding up toward the surface, as the bubble grows.
-  float height = mix(life, life * life, 0.35) * uDrinkSurface;
+  float risen = mix(life, life * life, uBubbleQuicken);
+  float height = mix(uBubbleFloor, uDrinkSurface, risen);
 
-  // The square root spreads the bubbles evenly over the can's section instead
-  // of crowding the axis.
+  // The square root spreads the bubbles evenly over the cloud's section instead
+  // of crowding its center.
   float around = aSeed.x * TURN;
-  vec2 place = vec2(cos(around), sin(around)) * (sqrt(aSeed.y) * uBubbleRadius);
+  vec2 place =
+    uBubbleCenter +
+    vec2(cos(around), sin(around)) * (sqrt(aSeed.y) * uBubbleRadius);
   // The drift depends on the height, so a stream of bubbles snakes instead of
   // swinging as a stiff line.
   float drift = height * 14.0 + aSeed.x * 40.0;
@@ -60,7 +68,7 @@ void main() {
   float density = uDrinkDensity * uDrinkUnder;
   float lit = 0.25 + 0.75 * exp(-(uDrinkSurface - height) / uDrinkLightDepth);
   float fog = exp(-density * density * span * span);
-  float near = smoothstep(NEAR_FADE.y, NEAR_FADE.x, span);
+  float near = smoothstep(uBubbleNearFade.y, uBubbleNearFade.x, span);
   vLight = lit * fog * near;
   vCorner = position.xy;
 
