@@ -12,25 +12,39 @@ import { useLayoutEffect, useMemo } from 'react';
 import { DRINK_UNIFORMS } from '@/experience/inside/liquid/utils/drinkUniforms';
 
 import { POSTPROCESSING } from './utils/postprocessing';
+import { splash } from './utils/splash';
+import { SplashEffect } from './utils/splashEffect';
 import { WobbleEffect } from './utils/wobbleEffect';
 
 // Everything that happens to the picture after the scene is drawn, for the whole
-// experience: the underwater sway (only in the drink), bloom, vignette, tone
-// mapping and grain. The scene is drawn without tone mapping into a buffer that
-// keeps colors brighter than white, so bloom can find the light sources; tone
-// mapping comes after it, and grain last, on the final colors.
+// experience: the underwater sway (only in the drink), the froth of the dive,
+// bloom, vignette, tone mapping and grain. The scene is drawn without tone
+// mapping into a buffer that keeps colors brighter than white, so bloom can find
+// the light sources; tone mapping comes after it, and grain last, on the final colors.
 const Postprocessing: React.FC = () => {
   const wobble = useMemo(() => new WobbleEffect(), []);
-  useLayoutEffect(() => () => wobble.dispose(), [wobble]);
+  const froth = useMemo(() => new SplashEffect(), []);
+  useLayoutEffect(
+    () => () => {
+      wobble.dispose();
+      froth.dispose();
+    },
+    [wobble, froth],
+  );
 
-  useFrame(() => {
-    // The sway comes in with the dive, on the same value as the drink's color.
-    wobble.under.value = DRINK_UNIFORMS.uDrinkUnder.value;
+  useFrame(({ camera }) => {
+    const covered = splash(camera.position);
+    froth.splash.value = covered;
+    // The sway comes in with the dive, on the same value as the drink's color,
+    // and is stronger in the froth.
+    wobble.under.value =
+      DRINK_UNIFORMS.uDrinkUnder.value + covered * POSTPROCESSING.splashWobble;
   });
 
   return (
     <EffectComposer multisampling={POSTPROCESSING.multisampling}>
       <primitive object={wobble} />
+      <primitive object={froth} />
       <Bloom
         mipmapBlur
         luminanceThreshold={POSTPROCESSING.bloomThreshold}

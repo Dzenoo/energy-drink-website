@@ -27,4 +27,16 @@ export const POSTPROCESSING = {
   wobbleScale: 1.5,
   /** How fast the waves move (cycles per second). */
   wobbleSpeed: 0.4,
+
+  // Splash: froth washing over the picture as the camera goes through the surface.
+  /** Color of the froth: the drink's own dark red, so the dive reads as sinking into it rather than as a flash. */
+  splashColor: '#58000b',
+  /** Brightness of the froth (1 = the color as set). */
+  splashBrightness: 0.65,
+  /** Clumps of froth across the screen's height; many, so it is a fine grain rather than clouds. */
+  splashScale: 30,
+  /** How fast the froth drifts up past the camera (clumps per second). */
+  splashSpeed: 0.1,
+  /** How much stronger the picture sways in the froth than in the still drink (times the wobble). */
+  splashWobble: 1.2,
 };

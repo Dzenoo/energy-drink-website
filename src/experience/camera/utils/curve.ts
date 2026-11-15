@@ -25,10 +25,14 @@ const POSES: readonly Pose[] = [
   { position: [0, 1.62, 0.42], target: [0, 1.3, 0.12], station: true },
   // Just above the opening, looking down into it.
   { position: [0, 1.42, 0.15], target: [0, 1.16, 0.07] },
-  // Inside the can over the drink: the surface fills the view.
-  { position: [0, 1.235, 0.115], target: [0, 1, 0.05] },
-  // Entry: just under the drink's surface.
-  { position: [0, 1.09, 0.12], target: [0.05, 0.86, 0], station: true },
+  // Over the drink, still looking down at it. From here to the next pose the
+  // froth of the dive covers the whole picture (postprocessing/utils/splash.ts),
+  // and under it the camera turns around: it went in looking down and back, and
+  // it comes out of the froth looking up and forward.
+  { position: [0, 1.2, 0.115], target: [0, 1, 0.06] },
+  // Just under the surface, already looking up at the opening it came through;
+  // from here it only sinks back and away to the bubbles station.
+  { position: [0, 1.1, 0.09], target: [0, 1.3, 0.16] },
   // Bubbles: mid-depth by the back wall, turned around to look up at the bright
   // opening the camera came in through, with the streams placed for this shot
   // rising toward it (bubbles/utils/bubbles.ts).
