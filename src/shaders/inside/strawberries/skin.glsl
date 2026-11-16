@@ -10,6 +10,10 @@ const float PIT = 0.075;
 const float SEED = 0.032;
 // How much darker the bottom of a pit is than the skin around it.
 const float PIT_SHADE = 0.45;
+// Share of the height (from the tip) left bare, and where the seeds are back in
+// full: right at the tip the rows would crowd into a ring.
+const float TIP_BARE = 0.04;
+const float TIP_SEEDED = 0.1;
 
 // Returns the surface color (rgb) and how glossy it is there (a).
 vec4 berrySurface(vec3 p, float fromAxis, float radius) {
@@ -24,8 +28,9 @@ vec4 berrySurface(vec3 p, float fromAxis, float radius) {
   vec2 cellSize = vec2(TURN * fromAxis / SEEDS_AROUND, 2.0 / SEED_ROWS);
   float toSeed = length(cell * cellSize);
 
-  float pit = 1.0 - smoothstep(0.0, PIT, toSeed);
-  float seed = 1.0 - smoothstep(SEED * 0.6, SEED, toSeed);
+  float seeded = smoothstep(TIP_BARE, TIP_SEEDED, p.y * 0.5 + 0.5);
+  float pit = (1.0 - smoothstep(0.0, PIT, toSeed)) * seeded;
+  float seed = (1.0 - smoothstep(SEED * 0.6, SEED, toSeed)) * seeded;
 
   vec3 skin = mix(uBerrySkin, uBerrySkinPale, smoothstep(0.55, 1.0, p.y));
   vec3 color = mix(skin * (1.0 - PIT_SHADE * pit), uBerrySeed, seed);
