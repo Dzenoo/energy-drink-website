@@ -4,6 +4,7 @@ import {
   extendMaterial,
   injectAfter,
 } from '@/experience/shared/shader/injectShader';
+
 import colorFragment from '@/shaders/can/label/label.color.frag.glsl';
 import emissiveFragment from '@/shaders/can/label/label.emissive.frag.glsl';
 import metalnessFragment from '@/shaders/can/label/label.metalness.frag.glsl';

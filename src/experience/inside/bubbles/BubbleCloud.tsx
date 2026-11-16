@@ -13,6 +13,7 @@ import { useFrame } from '@react-three/fiber';
 
 import { DRINK_UNIFORMS } from '@/experience/inside/liquid/helpers/drinkUniforms';
 import { useDrinkOnly } from '@/experience/inside/liquid/useDrinkOnly';
+
 import fragmentShader from '@/shaders/inside/bubbles/bubbles.frag.glsl';
 import vertexShader from '@/shaders/inside/bubbles/bubbles.vert.glsl';
 

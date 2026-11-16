@@ -3,13 +3,16 @@ import { Color, type Mesh, MeshStandardMaterial } from 'three';
 
 import { injectAfter } from '@/experience/shared/shader/injectShader';
 import { STUDIO } from '@/experience/studio/helpers/studio';
+
 import fadeFragment from '@/shaders/ending/floor/floor.fade.frag.glsl';
 import fragmentPars from '@/shaders/ending/floor/floor.pars.frag.glsl';
 import vertexPars from '@/shaders/ending/floor/floor.pars.vert.glsl';
 import vertexMain from '@/shaders/ending/floor/floor.vert.glsl';
 
 import { useEndingOnly } from '../cut/useEndingOnly';
+
 import { useOwnEnvironment } from '../environment/useOwnEnvironment';
+
 import { FLOOR } from './helpers/floor';
 
 // The studio floor of the end: nearly black, lit mostly by the light that

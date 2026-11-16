@@ -10,6 +10,7 @@ import fragmentShader from '@/shaders/inside/liquid/backdrop.frag.glsl';
 import vertexShader from '@/shaders/inside/liquid/backdrop.vert.glsl';
 
 import { DRINK_UNIFORMS } from './helpers/drinkUniforms';
+
 import { useDrinkOnly } from './useDrinkOnly';
 
 /** Draw order among see-through things: first, so bubbles and the like land on top of it. */

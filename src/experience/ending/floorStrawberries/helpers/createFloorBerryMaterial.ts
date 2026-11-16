@@ -2,6 +2,7 @@ import { DoubleSide, MeshStandardMaterial, Vector2 } from 'three';
 
 import { STRAWBERRY_UNIFORMS } from '@/experience/inside/strawberries/helpers/strawberry';
 import { injectAfter } from '@/experience/shared/shader/injectShader';
+
 import colorFragment from '@/shaders/ending/floorStrawberries/berry.color.frag.glsl';
 import normalFragment from '@/shaders/ending/floorStrawberries/berry.normal.frag.glsl';
 import fragmentPars from '@/shaders/ending/floorStrawberries/berry.pars.frag.glsl';

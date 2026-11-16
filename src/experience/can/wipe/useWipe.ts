@@ -11,6 +11,7 @@ import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 
 import fragmentShader from '@/shaders/can/wipe/wipe.frag.glsl';
 import vertexShader from '@/shaders/can/wipe/wipe.vert.glsl';
+
 import { useScrollStore } from '@/store/scroll/scroll';
 import { WIPE_INPUT } from '@/store/wipe/wipe';
 

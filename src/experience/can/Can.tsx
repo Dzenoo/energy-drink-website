@@ -5,18 +5,23 @@ import { preloadModel, useModel } from '@/experience/shared/model/useModel';
 
 import { addCondensation } from './condensation/helpers/condensation';
 import { useCondensation } from './condensation/useCondensation';
+
 import { bakePartTransform } from './helpers/bakePartTransform';
+
 import { addLabel } from './label/helpers/label';
 import { useLabelText } from './label/useLabelText';
+
 import { useOpening } from './opening/useOpening';
+
 import { useSpin } from './spin/useSpin';
+
 import { useWipe } from './wipe/useWipe';
 
 // Slim 250 ml can from Blender, meshopt-compressed. Scene units: 1 unit = 10 cm,
 // base at y = 0, opening toward +z. The moving parts hang under empties that keep
 // their pivots through quantization: TabPivot sits on the rivet, PanelPivot on the
 // hinge at the back of the opening.
-const MODEL_URL = '/models/can.glb';
+const MODEL_URL = '/models/can/can.glb';
 
 /** Model parts whose quantization transform is baked back, so condensation sees real units. */
 const PARTS = ['Can', 'Panel', 'Tab'];

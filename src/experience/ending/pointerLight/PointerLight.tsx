@@ -13,7 +13,9 @@ import { damp3 } from 'maath/easing';
 import { SCROLL } from '@/store/scroll/scroll';
 
 import { showsEnding } from '../cut/helpers/cut';
+
 import { FLOOR_LAYOUT } from '../floorStrawberries/helpers/floorLayout';
+
 import { POINTER_LIGHT } from './helpers/pointerLight';
 
 /** The floor, and an upright wall at the back of the band for pointers above the horizon. */

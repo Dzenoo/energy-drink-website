@@ -1,7 +1,9 @@
 import { Suspense } from 'react';
 
 import Floor from './floor/Floor';
+
 import FloorStrawberries from './floorStrawberries/FloorStrawberries';
+
 import PointerLight from './pointerLight/PointerLight';
 
 // What comes up out of the dark at the end: strawberries strewn across the
@@ -11,7 +13,9 @@ const EndScene: React.FC = () => (
   <>
     {/* Outside the Suspense: the light must be in the scene before any lit material is first drawn. */}
     <PointerLight />
+
     <Floor />
+
     <Suspense fallback={null}>
       <FloorStrawberries />
     </Suspense>

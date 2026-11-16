@@ -12,6 +12,7 @@ import {
 import { DRINK_UNIFORMS } from '@/experience/inside/liquid/helpers/drinkUniforms';
 import { LIQUID } from '@/experience/inside/liquid/helpers/liquid';
 import { useDrinkOnly } from '@/experience/inside/liquid/useDrinkOnly';
+
 import fragmentShader from '@/shaders/inside/wall/wall.frag.glsl';
 import vertexShader from '@/shaders/inside/wall/wall.vert.glsl';
 

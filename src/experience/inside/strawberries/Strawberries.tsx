@@ -13,6 +13,7 @@ import { CAUSTICS_UNIFORMS } from '@/experience/inside/caustics/helpers/caustics
 import { DRINK_UNIFORMS } from '@/experience/inside/liquid/helpers/drinkUniforms';
 import { useDrinkOnly } from '@/experience/inside/liquid/useDrinkOnly';
 import { preloadModel, useModel } from '@/experience/shared/model/useModel';
+
 import fragmentShader from '@/shaders/inside/strawberries/strawberry.frag.glsl';
 import vertexShader from '@/shaders/inside/strawberries/strawberry.vert.glsl';
 
