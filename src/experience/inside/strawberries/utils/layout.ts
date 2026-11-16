@@ -34,7 +34,7 @@ const HEROES: readonly Hero[] = [
   {
     piece: 'StrawberrySlice',
     position: [0.1, 0.42, -0.04],
-    rotation: [12, 67, 138],
+    rotation: [-120, 27, 138],
     scale: 0.1,
   },
 ];
