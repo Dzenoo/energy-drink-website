@@ -70,7 +70,8 @@ export const FIZZ: BubbleSettings = {
   radius: 0.245,
   floor: 0,
 
-  size: 0.01,
+  // 0.4 mm for the largest: fine fizz, so the fruit stays the subject up close.
+  size: 0.004,
   riseTime: 9,
   quicken: 0.35,
   sway: 0.012,
