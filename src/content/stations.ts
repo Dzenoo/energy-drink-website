@@ -5,6 +5,5 @@ export const STATIONS = [
   { id: 'opening', title: 'Opening' },
   { id: 'bubbles', title: 'Bubbles' },
   { id: 'strawberry', title: 'Strawberry' },
-  { id: 'surfacing', title: 'Surfacing' },
   { id: 'end', title: 'End' },
 ] as const;

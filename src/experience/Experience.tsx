@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react';
 
 import CameraRig from './camera/CameraRig';
 import Can from './can/Can';
+import BeforeEnding from './ending/BeforeEnding';
 import Bubbles from './inside/bubbles/Bubbles';
 import Caustics from './inside/caustics/Caustics';
 import LightRays from './inside/lightRays/LightRays';
@@ -44,16 +45,18 @@ const Experience: React.FC = () => (
     <color attach="background" args={[SCENE.background]} />
     <CameraRig />
     <Studio />
-    <Liquid />
-    <InnerWall />
-    <Caustics />
-    <Bubbles />
-    <LightRays />
-    {/* The loader comes in phase 5; until then the can simply appears once loaded. */}
-    <Suspense fallback={null}>
-      <Can />
-      <Strawberries />
-    </Suspense>
+    <BeforeEnding>
+      <Liquid />
+      <InnerWall />
+      <Caustics />
+      <Bubbles />
+      <LightRays />
+      {/* The loader comes in phase 5; until then the can simply appears once loaded. */}
+      <Suspense fallback={null}>
+        <Can />
+        <Strawberries />
+      </Suspense>
+    </BeforeEnding>
     <Postprocessing />
     {Perf && (
       <Suspense fallback={null}>
