@@ -1,10 +1,14 @@
+import { Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
 import { damp } from 'maath/easing';
-import { Vector3 } from 'three';
 
 import { SCROLL, useScrollStore } from '@/store/scroll/scroll';
 
-import { POSITION_CURVE, progressToCurveT, TARGET_CURVE } from './utils/curve';
+import {
+  POSITION_CURVE,
+  progressToCurveT,
+  TARGET_CURVE,
+} from './helpers/curve';
 
 const CAMERA_RIG = {
   /** Spring time (s) to roughly reach the next station; longer feels heavier and smoother. */

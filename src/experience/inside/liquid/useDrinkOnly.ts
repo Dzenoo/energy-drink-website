@@ -1,8 +1,8 @@
-import { useFrame, useThree } from '@react-three/fiber';
 import { type RefObject, useLayoutEffect } from 'react';
 import type { Object3D } from 'three';
+import { useFrame, useThree } from '@react-three/fiber';
 
-import { DRINK_UNIFORMS } from './utils/drinkUniforms';
+import { DRINK_UNIFORMS } from './helpers/drinkUniforms';
 
 /**
  * For things that exist only inside the drink (backdrop, inner wall, bubbles):

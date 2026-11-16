@@ -1,4 +1,3 @@
-import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import {
   HalfFloatType,
@@ -8,13 +7,14 @@ import {
   type Texture,
 } from 'three';
 import { FullScreenQuad } from 'three/examples/jsm/postprocessing/Pass.js';
+import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 
 import fragmentShader from '@/shaders/can/wipe/wipe.frag.glsl';
 import vertexShader from '@/shaders/can/wipe/wipe.vert.glsl';
 import { useScrollStore } from '@/store/scroll/scroll';
 import { WIPE_INPUT } from '@/store/wipe/wipe';
 
-import { CONDENSATION_UNIFORMS } from '../condensation/utils/condensation';
+import { CONDENSATION_UNIFORMS } from '../condensation/helpers/condensation';
 
 const WIPE = {
   /** Wipe map size (px); the wipe is soft, so a small map covering the screen is enough. */

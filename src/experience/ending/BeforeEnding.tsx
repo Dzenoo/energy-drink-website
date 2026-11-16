@@ -1,10 +1,10 @@
-import { useFrame } from '@react-three/fiber';
 import { type PropsWithChildren, useRef } from 'react';
 import type { Group } from 'three';
+import { useFrame } from '@react-three/fiber';
 
 import { SCROLL } from '@/store/scroll/scroll';
 
-import { showsEnding } from './utils/ending';
+import { showsEnding } from './cut/helpers/cut';
 
 // Everything of the flight up to the cut: the can, the drink and all in it. Once
 // the picture has gone black on the way to the end, it is hidden, so the end

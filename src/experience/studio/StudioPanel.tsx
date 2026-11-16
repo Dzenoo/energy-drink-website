@@ -1,5 +1,5 @@
-import { Lightformer } from '@react-three/drei';
 import { MathUtils } from 'three';
+import { Lightformer } from '@react-three/drei';
 
 /** Distance of every panel from the environment's center (units); only the angle and size matter for reflections. */
 const PANEL_DISTANCE = 5;

@@ -9,13 +9,13 @@ import {
   Vector3,
 } from 'three';
 
+import { DRINK_UNIFORMS } from '@/experience/inside/liquid/helpers/drinkUniforms';
+import { LIQUID } from '@/experience/inside/liquid/helpers/liquid';
 import { useDrinkOnly } from '@/experience/inside/liquid/useDrinkOnly';
-import { DRINK_UNIFORMS } from '@/experience/inside/liquid/utils/drinkUniforms';
-import { LIQUID } from '@/experience/inside/liquid/utils/liquid';
 import fragmentShader from '@/shaders/inside/wall/wall.frag.glsl';
 import vertexShader from '@/shaders/inside/wall/wall.vert.glsl';
 
-import { WALL } from './utils/wall';
+import { WALL } from './helpers/wall';
 
 // The can from the inside. The model is one shell facing out, so from within the
 // drink there is no can at all; this is its inner wall and bottom, up to the

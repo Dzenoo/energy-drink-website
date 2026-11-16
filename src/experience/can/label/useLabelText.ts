@@ -1,9 +1,9 @@
-import { useThree } from '@react-three/fiber';
 import { useEffect } from 'react';
 import type { CanvasTexture } from 'three';
+import { useThree } from '@react-three/fiber';
 
-import { LABEL_UNIFORMS } from './utils/label';
-import { createLabelTextMask } from './utils/labelText';
+import { LABEL_UNIFORMS } from './helpers/label';
+import { createLabelTextMask } from './helpers/labelText';
 
 /** Texture filtering at grazing angles, where the letters curve away from the camera; 8 is sharp enough. */
 const TEXT_ANISOTROPY = 8;

@@ -1,3 +1,5 @@
+import { useLayoutEffect, useMemo } from 'react';
+import { BlendFunction, ToneMappingMode } from 'postprocessing';
 import { useFrame } from '@react-three/fiber';
 import {
   Bloom,
@@ -6,18 +8,17 @@ import {
   ToneMapping,
   Vignette,
 } from '@react-three/postprocessing';
-import { BlendFunction, ToneMappingMode } from 'postprocessing';
-import { useLayoutEffect, useMemo } from 'react';
 
-import { blackout } from '@/experience/ending/utils/ending';
-import { DRINK_UNIFORMS } from '@/experience/inside/liquid/utils/drinkUniforms';
+import { blackout } from '@/experience/ending/cut/helpers/cut';
+import { DRINK_UNIFORMS } from '@/experience/inside/liquid/helpers/drinkUniforms';
+
 import { SCROLL } from '@/store/scroll/scroll';
 
-import { BlackoutEffect } from './utils/blackoutEffect';
-import { POSTPROCESSING } from './utils/postprocessing';
-import { splash } from './utils/splash';
-import { SplashEffect } from './utils/splashEffect';
-import { WobbleEffect } from './utils/wobbleEffect';
+import { BlackoutEffect } from './helpers/blackoutEffect';
+import { POSTPROCESSING } from './helpers/postprocessing';
+import { splash } from './helpers/splash';
+import { SplashEffect } from './helpers/splashEffect';
+import { WobbleEffect } from './helpers/wobbleEffect';
 
 // Everything that happens to the picture after the scene is drawn, for the whole
 // experience: the underwater sway (only in the drink), the froth of the dive,
@@ -51,19 +52,25 @@ const Postprocessing: React.FC = () => {
   return (
     <EffectComposer multisampling={POSTPROCESSING.multisampling}>
       <primitive object={wobble} />
+
       <primitive object={froth} />
+
       <Bloom
         mipmapBlur
         luminanceThreshold={POSTPROCESSING.bloomThreshold}
         luminanceSmoothing={POSTPROCESSING.bloomSmoothing}
         intensity={POSTPROCESSING.bloomIntensity}
       />
+
       <Vignette
         offset={POSTPROCESSING.vignetteOffset}
         darkness={POSTPROCESSING.vignetteDarkness}
       />
+
       <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
+
       <primitive object={fade} />
+
       <Noise
         blendFunction={BlendFunction.SOFT_LIGHT}
         opacity={POSTPROCESSING.grain}

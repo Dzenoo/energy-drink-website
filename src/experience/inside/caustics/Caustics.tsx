@@ -1,6 +1,6 @@
 import { useFrame } from '@react-three/fiber';
 
-import { CAUSTICS_UNIFORMS } from './utils/caustics';
+import { CAUSTICS_UNIFORMS } from './helpers/caustics';
 
 // Moves the web of light on the fruit. Draws nothing of its own: the fruit adds
 // the web to its light in its shader.

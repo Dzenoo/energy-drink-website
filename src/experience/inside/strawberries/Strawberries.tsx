@@ -9,16 +9,16 @@ import {
   Vector2,
 } from 'three';
 
-import { CAUSTICS_UNIFORMS } from '@/experience/inside/caustics/utils/caustics';
+import { CAUSTICS_UNIFORMS } from '@/experience/inside/caustics/helpers/caustics';
+import { DRINK_UNIFORMS } from '@/experience/inside/liquid/helpers/drinkUniforms';
 import { useDrinkOnly } from '@/experience/inside/liquid/useDrinkOnly';
-import { DRINK_UNIFORMS } from '@/experience/inside/liquid/utils/drinkUniforms';
 import { preloadModel, useModel } from '@/experience/shared/model/useModel';
 import fragmentShader from '@/shaders/inside/strawberries/strawberry.frag.glsl';
 import vertexShader from '@/shaders/inside/strawberries/strawberry.vert.glsl';
 
-import { createLayout } from './utils/layout';
-import { PIECES, STRAWBERRY_MODEL_URL as MODEL_URL } from './utils/pieces';
-import { STRAWBERRY_UNIFORMS } from './utils/strawberry';
+import { createLayout } from './helpers/layout';
+import { PIECES, STRAWBERRY_MODEL_URL as MODEL_URL } from './helpers/pieces';
+import { STRAWBERRY_UNIFORMS } from './helpers/strawberry';
 
 /** Name the cut faces' material has in the model; everything else is skin. */
 const FLESH_MATERIAL = 'Flesh';

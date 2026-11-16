@@ -1,19 +1,24 @@
-import { Canvas } from '@react-three/fiber';
 import { lazy, Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
 
 import CameraRig from './camera/CameraRig';
+
 import Can from './can/Can';
+
 import BeforeEnding from './ending/BeforeEnding';
 import EndScene from './ending/EndScene';
+
 import Bubbles from './inside/bubbles/Bubbles';
 import Caustics from './inside/caustics/Caustics';
 import LightRays from './inside/lightRays/LightRays';
 import Liquid from './inside/liquid/Liquid';
 import Strawberries from './inside/strawberries/Strawberries';
 import InnerWall from './inside/wall/InnerWall';
+
 import Postprocessing from './postprocessing/Postprocessing';
+
 import Studio from './studio/Studio';
-import { STUDIO } from './studio/utils/studio';
+import { STUDIO } from './studio/helpers/studio';
 
 const SCENE = {
   /** Vertical field of view (degrees). */
@@ -43,22 +48,29 @@ const Experience: React.FC = () => (
     gl={{ antialias: false }}
   >
     <color attach="background" args={[STUDIO.background]} />
+
     <CameraRig />
+
     <Studio />
+
     <BeforeEnding>
       <Liquid />
       <InnerWall />
       <Caustics />
       <Bubbles />
       <LightRays />
+
       {/* The loader comes in phase 5; until then the can simply appears once loaded. */}
       <Suspense fallback={null}>
         <Can />
         <Strawberries />
       </Suspense>
     </BeforeEnding>
+
     <EndScene />
+
     <Postprocessing />
+
     {Perf && (
       <Suspense fallback={null}>
         <Perf position="top-left" />

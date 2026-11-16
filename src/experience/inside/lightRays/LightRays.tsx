@@ -1,4 +1,3 @@
-import { useFrame } from '@react-three/fiber';
 import { useLayoutEffect, useMemo, useRef } from 'react';
 import {
   AdditiveBlending,
@@ -10,14 +9,15 @@ import {
   ShaderMaterial,
   Vector2,
 } from 'three';
+import { useFrame } from '@react-three/fiber';
 
+import { DRINK_UNIFORMS } from '@/experience/inside/liquid/helpers/drinkUniforms';
 import { useDrinkOnly } from '@/experience/inside/liquid/useDrinkOnly';
-import { DRINK_UNIFORMS } from '@/experience/inside/liquid/utils/drinkUniforms';
 import fragmentShader from '@/shaders/inside/lightRays/lightRays.frag.glsl';
 import vertexShader from '@/shaders/inside/lightRays/lightRays.vert.glsl';
 
-import { createRaySeeds } from './utils/createRaySeeds';
-import { LIGHT_RAYS } from './utils/lightRays';
+import { createRaySeeds } from './helpers/createRaySeeds';
+import { LIGHT_RAYS } from './helpers/lightRays';
 
 /** Corners of the strip every ray is drawn on: across (x, -1 to 1) and along (y, 0 at the surface to 1 at the end). */
 const STRIP = new Float32Array([-1, 0, 0, 1, 0, 0, 1, 1, 0, -1, 1, 0]);

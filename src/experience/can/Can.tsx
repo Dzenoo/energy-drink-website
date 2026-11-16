@@ -3,13 +3,13 @@ import { Mesh, MeshStandardMaterial } from 'three';
 
 import { preloadModel, useModel } from '@/experience/shared/model/useModel';
 
+import { addCondensation } from './condensation/helpers/condensation';
 import { useCondensation } from './condensation/useCondensation';
-import { addCondensation } from './condensation/utils/condensation';
+import { bakePartTransform } from './helpers/bakePartTransform';
+import { addLabel } from './label/helpers/label';
 import { useLabelText } from './label/useLabelText';
-import { addLabel } from './label/utils/label';
 import { useOpening } from './opening/useOpening';
 import { useSpin } from './spin/useSpin';
-import { bakePartTransform } from './utils/bakePartTransform';
 import { useWipe } from './wipe/useWipe';
 
 // Slim 250 ml can from Blender, meshopt-compressed. Scene units: 1 unit = 10 cm,

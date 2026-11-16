@@ -1,4 +1,3 @@
-import { useFrame } from '@react-three/fiber';
 import { useLayoutEffect, useMemo } from 'react';
 import {
   Color,
@@ -7,12 +6,13 @@ import {
   type Texture,
   Vector2,
 } from 'three';
+import { useFrame } from '@react-three/fiber';
 
 import fragmentShader from '@/shaders/inside/liquid/surface.frag.glsl';
 import vertexShader from '@/shaders/inside/liquid/surface.vert.glsl';
 
-import { DRINK_UNIFORMS } from './utils/drinkUniforms';
-import { LIQUID } from './utils/liquid';
+import { DRINK_UNIFORMS } from './helpers/drinkUniforms';
+import { LIQUID } from './helpers/liquid';
 
 /** Segments around the surface disc; the waves live in the shader, so the disc stays flat. */
 const SEGMENTS = 64;

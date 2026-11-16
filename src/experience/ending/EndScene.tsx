@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 
-import Floor from './Floor';
-import FloorStrawberries from './FloorStrawberries';
-import PointerLight from './PointerLight';
+import Floor from './floor/Floor';
+import FloorStrawberries from './floorStrawberries/FloorStrawberries';
+import PointerLight from './pointerLight/PointerLight';
 
 // What comes up out of the dark at the end: strawberries strewn across the
 // studio floor, dim until the light that follows the pointer finds them. It

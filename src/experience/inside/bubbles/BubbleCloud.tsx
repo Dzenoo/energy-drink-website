@@ -1,4 +1,3 @@
-import { useFrame } from '@react-three/fiber';
 import { useLayoutEffect, useMemo, useRef } from 'react';
 import {
   AdditiveBlending,
@@ -10,14 +9,15 @@ import {
   ShaderMaterial,
   Vector2,
 } from 'three';
+import { useFrame } from '@react-three/fiber';
 
+import { DRINK_UNIFORMS } from '@/experience/inside/liquid/helpers/drinkUniforms';
 import { useDrinkOnly } from '@/experience/inside/liquid/useDrinkOnly';
-import { DRINK_UNIFORMS } from '@/experience/inside/liquid/utils/drinkUniforms';
 import fragmentShader from '@/shaders/inside/bubbles/bubbles.frag.glsl';
 import vertexShader from '@/shaders/inside/bubbles/bubbles.vert.glsl';
 
-import type { BubbleSettings } from './utils/bubbles';
-import { createBubbleSeeds, SEED_SIZE } from './utils/createBubbleSeeds';
+import type { BubbleSettings } from './helpers/bubbles';
+import { createBubbleSeeds, SEED_SIZE } from './helpers/createBubbleSeeds';
 
 /** Corners of the square every bubble is drawn on, and the two triangles that fill it. */
 const SQUARE = new Float32Array([-1, -1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0]);

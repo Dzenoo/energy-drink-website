@@ -1,10 +1,10 @@
-import { useFrame, useThree } from '@react-three/fiber';
 import { useLayoutEffect, useMemo, useRef } from 'react';
 import { FogExp2, MathUtils } from 'three';
+import { useFrame, useThree } from '@react-three/fiber';
 
-import { DRINK_UNIFORMS } from './utils/drinkUniforms';
-import { immersion } from './utils/immersion';
-import { IMMERSION, LIQUID } from './utils/liquid';
+import { DRINK_UNIFORMS } from './helpers/drinkUniforms';
+import { immersion } from './helpers/immersion';
+import { IMMERSION, LIQUID } from './helpers/liquid';
 
 // Tracks how far the camera is into the drink and turns the scene with it: the
 // drink's shaders read it from the shared uniforms, and three.js's own materials

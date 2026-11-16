@@ -1,6 +1,6 @@
-import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
 import { MathUtils, type Object3D } from 'three';
+import { useFrame } from '@react-three/fiber';
 
 import { SCROLL } from '@/store/scroll/scroll';
 
