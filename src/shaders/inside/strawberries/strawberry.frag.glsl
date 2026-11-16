@@ -1,4 +1,5 @@
 #include "../liquid/drink.glsl"
+#include "../caustics/caustics.glsl"
 
 // Where the whole fruit's axis passes through this piece (x, z in model units):
 // a half, a quarter and a slice are cut from it differently.
@@ -19,6 +20,8 @@ uniform float uBerryAmbient;
 uniform float uBerryGlow;
 // Strength of the wet highlight.
 uniform float uBerryGloss;
+// Brightness of the caustics on the fruit, times the light from above.
+uniform float uCausticOnFruit;
 
 varying vec3 vObject;
 varying vec3 vWorldPosition;
@@ -77,6 +80,10 @@ void main() {
   vec3 light =
     uBerryLight * (uBerryLightStrength * fromAbove * lit) +
     drinkColor(normal, vWorldPosition.y) * uBerryAmbient;
+  // The web of light the waves focus through the opening, on top of it: it
+  // fades with depth like the rest of the light from above.
+  float caustic = caustics(vWorldPosition, normal) * uCausticOnFruit;
+  light += uBerryLight * (uBerryLightStrength * caustic * lit);
   vec3 color = surface.rgb * light;
 
   // Thin edges let the light through.

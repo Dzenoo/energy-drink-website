@@ -4,6 +4,7 @@ import { lazy, Suspense } from 'react';
 import CameraRig from './camera/CameraRig';
 import Can from './can/Can';
 import Bubbles from './inside/bubbles/Bubbles';
+import Caustics from './inside/caustics/Caustics';
 import Liquid from './inside/liquid/Liquid';
 import Strawberries from './inside/strawberries/Strawberries';
 import InnerWall from './inside/wall/InnerWall';
@@ -44,6 +45,7 @@ const Experience: React.FC = () => (
     <Studio />
     <Liquid />
     <InnerWall />
+    <Caustics />
     <Bubbles />
     {/* The loader comes in phase 5; until then the can simply appears once loaded. */}
     <Suspense fallback={null}>

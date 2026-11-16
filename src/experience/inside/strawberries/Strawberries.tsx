@@ -9,6 +9,7 @@ import {
   Vector2,
 } from 'three';
 
+import { CAUSTICS_UNIFORMS } from '@/experience/inside/caustics/utils/caustics';
 import { useDrinkOnly } from '@/experience/inside/liquid/useDrinkOnly';
 import { DRINK_UNIFORMS } from '@/experience/inside/liquid/utils/drinkUniforms';
 import { preloadModel, useModel } from '@/experience/shared/model/useModel';
@@ -32,6 +33,8 @@ const createMaterial = (axis: readonly [number, number], flesh: boolean) =>
     uniforms: {
       // The drink's light and fog, and the look shared by all pieces.
       ...DRINK_UNIFORMS,
+      // The web of light, one for all pieces.
+      ...CAUSTICS_UNIFORMS,
       ...STRAWBERRY_UNIFORMS,
       uBerryAxis: { value: new Vector2(...axis) },
     },
