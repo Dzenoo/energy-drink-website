@@ -17,10 +17,8 @@ import fragmentShader from '@/shaders/inside/strawberries/strawberry.frag.glsl';
 import vertexShader from '@/shaders/inside/strawberries/strawberry.vert.glsl';
 
 import { createLayout } from './utils/layout';
-import { PIECES } from './utils/pieces';
+import { PIECES, STRAWBERRY_MODEL_URL as MODEL_URL } from './utils/pieces';
 import { STRAWBERRY_UNIFORMS } from './utils/strawberry';
-
-const MODEL_URL = '/models/strawberry.glb';
 
 /** Name the cut faces' material has in the model; everything else is skin. */
 const FLESH_MATERIAL = 'Flesh';

@@ -44,11 +44,13 @@ const POSES: readonly Pose[] = [
   // Sinking deeper into the darkening drink, still looking back. The picture is
   // black from about here on.
   { position: [0.03, 0.3, 0.02], target: [-0.05, 0.25, -0.3] },
-  // Out in the dark studio: in between, unseen, the camera has left through the
-  // can's wall and turned around. The end comes up from here as it pulls back.
-  { position: [0.6, 0.6, 2.2], target: [0, 0.3, 0] },
-  // End: for now the empty studio; the scene for it comes next.
-  { position: [0.9, 0.9, 2.8], target: [0, 0.67, 0], station: true },
+  // Out in the dark studio, close to the strawberries on the floor: in between,
+  // unseen, the camera has left through the can's wall and turned around. The
+  // end comes up from here as it pulls back (ending/utils/floorLayout.ts).
+  { position: [0, 0.35, 1.4], target: [0, 0.4, -0.3] },
+  // End: looking almost level over the floor, so the strawberries lie in a band
+  // across the bottom of the shot and the dark above is left for the text.
+  { position: [0, 1.1, 1.96], target: [0, 0.5, -0.3], station: true },
 ];
 
 const toCurve = (points: Point[]) =>

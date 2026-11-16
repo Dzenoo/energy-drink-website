@@ -4,6 +4,7 @@ import { lazy, Suspense } from 'react';
 import CameraRig from './camera/CameraRig';
 import Can from './can/Can';
 import BeforeEnding from './ending/BeforeEnding';
+import EndScene from './ending/EndScene';
 import Bubbles from './inside/bubbles/Bubbles';
 import Caustics from './inside/caustics/Caustics';
 import LightRays from './inside/lightRays/LightRays';
@@ -12,10 +13,9 @@ import Strawberries from './inside/strawberries/Strawberries';
 import InnerWall from './inside/wall/InnerWall';
 import Postprocessing from './postprocessing/Postprocessing';
 import Studio from './studio/Studio';
+import { STUDIO } from './studio/utils/studio';
 
 const SCENE = {
-  /** Dark studio backdrop. */
-  background: '#050608',
   /** Vertical field of view (degrees). */
   fov: 35,
   /** Near plane (units, 1 unit = 10 cm); small because the camera passes through a 2 cm opening. */
@@ -42,7 +42,7 @@ const Experience: React.FC = () => (
     flat
     gl={{ antialias: false }}
   >
-    <color attach="background" args={[SCENE.background]} />
+    <color attach="background" args={[STUDIO.background]} />
     <CameraRig />
     <Studio />
     <BeforeEnding>
@@ -57,6 +57,7 @@ const Experience: React.FC = () => (
         <Strawberries />
       </Suspense>
     </BeforeEnding>
+    <EndScene />
     <Postprocessing />
     {Perf && (
       <Suspense fallback={null}>
