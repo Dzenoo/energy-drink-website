@@ -32,9 +32,22 @@ const SCENE = {
   near: 0.01,
   /** Far plane (units). */
   far: 50,
-  /** Pixel ratio range; capped at 2, since sharper costs a lot on phones for little gain. */
-  dpr: [1, 2] as [number, number],
+  /** Highest pixel ratio on screens used with a mouse; sharper than 2 costs a lot for little gain. */
+  maxDpr: 2,
+  /**
+   * Highest pixel ratio on touch screens: about 44 % fewer pixels than 2, which
+   * the grain and bloom hide on a phone, as headroom for mid-range phones. Set
+   * once on load and never changed, so there is no stall from resizing mid-visit.
+   */
+  maxTouchDpr: 1.5,
 };
+
+const isTouchScreen = window.matchMedia('(pointer: coarse)').matches;
+/** Pixel ratio range for this device. */
+const DPR: [number, number] = [
+  1,
+  isTouchScreen ? SCENE.maxTouchDpr : SCENE.maxDpr,
+];
 
 // Dev-only performance panel. In production the condition is false at build time,
 // so the import and the r3f-perf code are left out of the bundle.
@@ -45,7 +58,7 @@ const Perf = import.meta.env.DEV
 const Experience: React.FC = () => (
   <Canvas
     style={{ position: 'fixed', inset: 0 }}
-    dpr={SCENE.dpr}
+    dpr={DPR}
     // The field of view starts as composed; the camera rig fits it to the screen.
     camera={{ fov: FRAMING.fov, near: SCENE.near, far: SCENE.far }}
     // Tone mapping and antialiasing happen in postprocessing, on the buffer the
