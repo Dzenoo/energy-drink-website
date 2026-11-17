@@ -77,6 +77,18 @@ const ScrollInput: React.FC = () => {
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
+      // Arrow keys in a text field move its cursor or value, not the stations.
+      const target = event.target;
+      if (
+        target instanceof HTMLElement &&
+        (target.isContentEditable ||
+          target instanceof HTMLInputElement ||
+          target instanceof HTMLTextAreaElement ||
+          target instanceof HTMLSelectElement)
+      ) {
+        return;
+      }
+
       if (NEXT_KEYS.has(event.key)) step(1);
       else if (PREVIOUS_KEYS.has(event.key)) step(-1);
       else return;
