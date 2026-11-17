@@ -29,6 +29,8 @@ export const useScrollStore = create<ScrollStore>((set) => ({
 /**
  * Scroll state that changes every frame, read directly by the 3D and HTML sides.
  * `progress` is a continuous station index (0 … STATION_COUNT - 1) that springs
- * toward `station`; the camera rig advances it.
+ * toward `station`; the camera rig advances it. With reduced motion there is no
+ * flight: the picture and the text dip out (`dip`, 0 … 1), the camera jumps to
+ * the new station while nothing shows, and both come back.
  */
-export const SCROLL = { progress: 0 };
+export const SCROLL = { progress: 0, dip: 0 };

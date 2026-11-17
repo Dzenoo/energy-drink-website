@@ -17,8 +17,13 @@ import { useDrinkOnly } from '@/experience/inside/liquid/useDrinkOnly';
 import fragmentShader from '@/shaders/inside/bubbles/bubbles.frag.glsl';
 import vertexShader from '@/shaders/inside/bubbles/bubbles.vert.glsl';
 
+import { MOTION } from '@/store/motion/motion';
+
 import type { BubbleSettings } from './helpers/bubbles';
 import { createBubbleSeeds, SEED_SIZE } from './helpers/createBubbleSeeds';
+
+/** Share of their normal speed the bubbles move at with reduced motion. */
+const REDUCED_SPEED = 0.35;
 
 /** Corners of the square every bubble is drawn on, and the two triangles that fill it. */
 const SQUARE = new Float32Array([-1, -1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0]);
@@ -95,7 +100,8 @@ const BubbleCloud: React.FC<BubbleCloudProps> = ({ settings }) => {
   useDrinkOnly(mesh);
 
   useFrame((_, delta) => {
-    uniforms.uTime.value += delta;
+    // With reduced motion the bubbles keep rising, only slower.
+    uniforms.uTime.value += delta * (MOTION.reduced ? REDUCED_SPEED : 1);
   });
 
   return (

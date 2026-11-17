@@ -14,6 +14,7 @@ import { DRINK_UNIFORMS } from '@/experience/inside/liquid/helpers/drinkUniforms
 import { introDarkness } from '@/experience/intro/helpers/intro';
 
 import { INTRO } from '@/store/intro/intro';
+import { MOTION } from '@/store/motion/motion';
 import { SCROLL } from '@/store/scroll/scroll';
 
 import { BlackoutEffect } from './helpers/blackoutEffect';
@@ -42,17 +43,22 @@ const Postprocessing: React.FC = () => {
   );
 
   useFrame(({ camera }) => {
-    // Black at the start, while the picture comes up, and on the cut to the end.
+    // Black at the start, while the picture comes up, on the cut to the end, and
+    // between stations with reduced motion.
     fade.blackout.value = Math.max(
       introDarkness(INTRO.progress),
       blackout(SCROLL.progress),
+      SCROLL.dip,
     );
     const covered = splash(camera.position);
     froth.splash.value = covered;
     // The sway comes in with the dive, on the same value as the drink's color,
-    // and is stronger in the froth.
-    wobble.under.value =
-      DRINK_UNIFORMS.uDrinkUnder.value + covered * POSTPROCESSING.splashWobble;
+    // and is stronger in the froth. A swaying picture is the motion most likely
+    // to bother someone who asked for less, so it is left out for them.
+    wobble.under.value = MOTION.reduced
+      ? 0
+      : DRINK_UNIFORMS.uDrinkUnder.value +
+        covered * POSTPROCESSING.splashWobble;
   });
 
   return (

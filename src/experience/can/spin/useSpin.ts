@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { MathUtils, type Object3D } from 'three';
 import { useFrame } from '@react-three/fiber';
 
+import { MOTION } from '@/store/motion/motion';
 import { SCROLL } from '@/store/scroll/scroll';
 
 const SPIN = {
@@ -32,13 +33,17 @@ export const useSpin = (can: Object3D) => {
 
     if (spin < 1) {
       const front = Math.ceil((angle.current - FRONT_SLACK) / TURN) * TURN;
-      // The pull toward the front grows as the spin fades out.
-      angle.current = MathUtils.damp(
-        angle.current,
-        front,
-        SPIN.settle * (1 - spin),
-        delta,
-      );
+      // The pull toward the front grows as the spin fades out. With reduced
+      // motion the camera jumps while the picture is dark, so the can is
+      // already facing it when the picture comes back, instead of turning then.
+      angle.current = MOTION.reduced
+        ? front
+        : MathUtils.damp(
+            angle.current,
+            front,
+            SPIN.settle * (1 - spin),
+            delta,
+          );
     }
 
     // Resting on station 2 and beyond, the angle no longer changes: nothing to write.

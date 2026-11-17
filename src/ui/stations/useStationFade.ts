@@ -14,7 +14,8 @@ const FADE = {
 /**
  * Ties each station's text to where the camera is, not to the input: the text
  * fades out as soon as the camera leaves its station and fades in only as the
- * camera arrives, so it always speaks about the shot on screen. It writes a
+ * camera arrives, so it always speaks about the shot on screen. With reduced
+ * motion it dips out and back with the picture instead. It writes a
  * `--shown` CSS variable (0 … 1) straight onto each section every frame,
  * without React renders.
  */
@@ -32,11 +33,12 @@ export const useStationFade = (count: number) => {
       sections.current.forEach((section, index) => {
         if (!section) return;
         const distance = Math.abs(SCROLL.progress - index);
+        // Dips out with the picture on a reduced-motion station change (SCROLL.dip).
         // Rounded so the camera's endless tiny settling does not write every frame.
         const shown =
           Math.round(
-            (1 -
-              smoothstep(distance, FADE.shownWithin, FADE.hiddenBeyond)) *
+            (1 - smoothstep(distance, FADE.shownWithin, FADE.hiddenBeyond)) *
+              (1 - SCROLL.dip) *
               1000,
           ) / 1000;
         if (shown === written[index]) return;

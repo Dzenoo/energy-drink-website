@@ -49,6 +49,14 @@
   transform: translateY(calc((1 - var(--shown)) * 1.75rem));
 }
 
+/* With reduced motion the text only fades, without rising into place. */
+@media (prefers-reduced-motion: reduce) {
+  .station__main,
+  .station__details {
+    transform: none;
+  }
+}
+
 /* Wide screens, and phones on their side: text on the left, details on the
    right, the shot between them. */
 @media (min-width: 900px), (orientation: landscape) and (max-height: 500px) {
