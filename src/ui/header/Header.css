@@ -63,6 +63,14 @@
   opacity: 1;
 }
 
+/* The narrowest phones (320px) cannot fit the brand and five 44px buttons;
+   40px still leaves a comfortable target. */
+@media (max-width: 359px) {
+  .header__link {
+    min-width: 2.5rem;
+  }
+}
+
 .header__label {
   position: absolute;
   width: 1px;

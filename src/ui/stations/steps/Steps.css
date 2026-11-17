@@ -36,7 +36,8 @@
   opacity: 0.75;
 }
 
-@media (min-width: 900px) {
+/* Wide and tall enough: each step with its text. */
+@media (min-width: 900px) and (min-height: 501px) {
   .steps {
     gap: 1.5rem;
   }
@@ -47,5 +48,16 @@
 
   .steps__text {
     display: block;
+  }
+}
+
+/* Phones on their side: titles only, packed closer. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .steps {
+    gap: 0.5rem;
+  }
+
+  .steps__item {
+    padding-top: 0.5rem;
   }
 }

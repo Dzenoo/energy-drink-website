@@ -20,6 +20,15 @@
   --font-body: 'Manrope Variable', system-ui, sans-serif;
 }
 
+/* Short screens (a phone on its side): a tighter frame, so the stations keep
+   room between the bars. The same query is used in the stations' CSS. */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root {
+    --edge: 10px;
+    --gutter: clamp(16px, 4vw, 32px);
+  }
+}
+
 html,
 body,
 #root {

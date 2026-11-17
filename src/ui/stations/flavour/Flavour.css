@@ -40,8 +40,8 @@
   opacity: 0.75;
 }
 
-/* Wide screens: notes one under another, then the ingredient list. */
-@media (min-width: 900px) {
+/* Wide and tall enough: notes one under another, then the ingredient list. */
+@media (min-width: 900px) and (min-height: 501px) {
   .flavour__notes {
     flex-direction: column;
     gap: 0.6rem;

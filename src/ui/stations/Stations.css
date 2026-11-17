@@ -49,8 +49,9 @@
   transform: translateY(calc((1 - var(--shown)) * 1.75rem));
 }
 
-/* Wide screens: text on the left, details on the right, the shot between them. */
-@media (min-width: 900px) {
+/* Wide screens, and phones on their side: text on the left, details on the
+   right, the shot between them. */
+@media (min-width: 900px), (orientation: landscape) and (max-height: 500px) {
   .station {
     grid-template-columns: minmax(0, 36rem) minmax(0, 20rem);
     justify-content: space-between;
@@ -97,9 +98,11 @@
   color: var(--station-accent);
 }
 
+/* Sized by the smaller of the screen's width and height, so a wide but low
+   screen does not get titles taller than it has room for. */
 .station__title {
   margin: 0;
-  font: 700 clamp(2.5rem, 7vw, 6.5rem) / 0.92 var(--font-display);
+  font: 700 clamp(2.5rem, min(7vw, 11vh), 6.5rem) / 0.92 var(--font-display);
   letter-spacing: 0.01em;
   text-transform: uppercase;
 }
@@ -145,7 +148,7 @@
 }
 
 .station__restart {
-  margin-top: 1.75rem;
+  margin-top: 1.25rem;
   padding: 1em 2em;
   border: 1px solid var(--station-accent);
   border-radius: 999px;
@@ -179,6 +182,60 @@
   opacity: 0.55;
 }
 
+/* Phones have the least height on the last station, which holds the most, so
+   its spacing grows only on wide screens. */
 .station__restart + .station__fineprint {
-  margin-top: 2rem;
+  margin-top: 1.25rem;
+}
+
+@media (min-width: 900px) and (min-height: 501px) {
+  .station__restart {
+    margin-top: 1.75rem;
+  }
+
+  .station__restart + .station__fineprint {
+    margin-top: 2rem;
+  }
+}
+
+/* Phones on their side: two narrow columns kept clear of the can in the
+   middle, smaller type and tighter spacing to fit the low screen. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .station {
+    --clearance: 0.75rem;
+
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 28vw;
+  }
+
+  .station__eyebrow {
+    margin-bottom: 0.5rem;
+  }
+
+  .station__title {
+    font-size: clamp(1.75rem, 8vh, 2.5rem);
+  }
+
+  .station__lead {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .station__hint {
+    margin-top: 0.75rem;
+  }
+
+  .station__restart {
+    margin-top: 1rem;
+    padding: 0.8em 1.6em;
+  }
+
+  .station__restart + .station__fineprint {
+    margin-top: 1rem;
+  }
+
+  .station__fineprint {
+    margin-top: 0.5rem;
+    font-size: 0.6875rem;
+  }
 }

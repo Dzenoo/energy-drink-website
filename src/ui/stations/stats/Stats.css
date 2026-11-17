@@ -38,8 +38,8 @@
   opacity: 0.75;
 }
 
-/* Wide screens: one value under another, each with its note. */
-@media (min-width: 900px) {
+/* Wide and tall enough: one value under another, each with its note. */
+@media (min-width: 900px) and (min-height: 501px) {
   .stats {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -51,5 +51,17 @@
 
   .stats__note {
     display: block;
+  }
+}
+
+/* Phones on their side: one value under another in the narrow column, without notes. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .stats__item {
+    padding-top: 0.5rem;
   }
 }

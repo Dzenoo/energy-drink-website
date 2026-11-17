@@ -14,9 +14,10 @@
   color: var(--station-accent);
 }
 
+/* Rows tight on phones, where the last station is short of height. */
 .nutrition th,
 .nutrition td {
-  padding: 0.55rem 0;
+  padding: 0.4rem 0;
   border-top: 1px solid color-mix(in srgb, currentColor 25%, transparent);
   text-align: right;
   font-weight: 400;
@@ -38,4 +39,18 @@
 .nutrition td + td,
 .nutrition th + th {
   padding-left: 1rem;
+}
+
+@media (min-width: 900px) and (min-height: 501px) {
+  .nutrition th,
+  .nutrition td {
+    padding-block: 0.55rem;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .nutrition th,
+  .nutrition td {
+    padding-block: 0.25rem;
+  }
 }
