@@ -4,7 +4,7 @@
 
 > DRINK is a fictional brand, made as a portfolio project. The product, its numbers and its claims are part of the story, not a real drink.
 
-<!-- TODO: live link -->
+**Live:** [energy-drink-website-dzenis.vercel.app](https://energy-drink-website-dzenis.vercel.app/)
 
 ## What it shows
 
