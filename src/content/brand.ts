@@ -1,6 +1,6 @@
 // The made-up brand, in one place: the can's label and the page both read it.
 export const BRAND = {
-  /** Working name until the real one is chosen. */
+  /** The brand's name, as printed on the can and shown on the page. */
   name: 'DRINK',
   flavor: 'Strawberry energy',
   volume: '250 ml',
