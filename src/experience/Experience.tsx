@@ -17,6 +17,7 @@ import InnerWall from './inside/wall/InnerWall';
 
 import Postprocessing from './postprocessing/Postprocessing';
 
+import BackLight from './studio/backLight/BackLight';
 import Studio from './studio/Studio';
 import { STUDIO } from './studio/helpers/studio';
 
@@ -52,6 +53,7 @@ const Experience: React.FC = () => (
     <CameraRig />
 
     <Studio />
+    <BackLight />
 
     <BeforeEnding>
       <Liquid />
