@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { MathUtils } from 'three';
 
 import { SCROLL } from '@/store/scroll/scroll';
+
+import { smoothstep } from '@/utils/smoothstep';
 
 const FADE = {
   /** Distance from a station (in stations) within which its text is fully shown. */
@@ -35,11 +36,7 @@ export const useStationFade = (count: number) => {
         const shown =
           Math.round(
             (1 -
-              MathUtils.smoothstep(
-                distance,
-                FADE.shownWithin,
-                FADE.hiddenBeyond,
-              )) *
+              smoothstep(distance, FADE.shownWithin, FADE.hiddenBeyond)) *
               1000,
           ) / 1000;
         if (shown === written[index]) return;

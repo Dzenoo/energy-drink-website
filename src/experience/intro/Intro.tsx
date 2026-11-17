@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 
 import { INTRO, useIntroStore } from '@/store/intro/intro';
+import { useLoadingStore } from '@/store/loading/loading';
 import { useScrollStore } from '@/store/scroll/scroll';
 
 import { INTRO_SETTINGS } from './helpers/intro';
@@ -13,9 +14,9 @@ const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Runs the opening animation's clock. Mounted with the can, inside its Suspense,
-// so the clock starts only once the can has loaded. The can, the drink's surface,
-// the glow behind the can and the fade from black read INTRO.progress; the page
-// waits for `landed`.
+// and started once the loader has finished, so the can rises as the loader fades.
+// The can, the drink's surface, the glow behind the can and the fade from black
+// read INTRO.progress; the page waits for `landed`.
 const Intro: React.FC = () => {
   useEffect(() => {
     // Without motion, the can is simply in its place and only the page fades in.
@@ -23,6 +24,9 @@ const Intro: React.FC = () => {
   }, []);
 
   useFrame((_, delta) => {
+    // Until the loader has gone, the picture stays black and the can below.
+    if (!useLoadingStore.getState().done) return;
+
     if (INTRO.progress < 1) {
       // Scrolling on before the end does not wait for it: it runs out faster.
       const speed =

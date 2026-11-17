@@ -17,6 +17,9 @@ import InnerWall from './inside/wall/InnerWall';
 
 import Intro from './intro/Intro';
 
+import ModelProgress from './loading/ModelProgress';
+import SceneReady from './loading/SceneReady';
+
 import Postprocessing from './postprocessing/Postprocessing';
 
 import BackLight from './studio/backLight/BackLight';
@@ -64,12 +67,14 @@ const Experience: React.FC = () => (
       <Bubbles />
       <LightRays />
 
-      {/* The loader comes in phase 5; until then the picture stays black until
-          the models have loaded, and the opening animation starts with them. */}
+      {/* The loader covers the page until the models have loaded and the first
+          frame is drawn; the opening animation starts once it has gone. */}
+      <ModelProgress />
       <Suspense fallback={null}>
         <Can />
         <Strawberries />
 
+        <SceneReady />
         <Intro />
       </Suspense>
     </BeforeEnding>

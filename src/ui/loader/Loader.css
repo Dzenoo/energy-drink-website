@@ -1,0 +1,78 @@
+/* The first screen, over everything. --fill (0 … 1) is written every frame by
+   Loader.tsx; --loader-fade comes from its LOADER.fade. */
+.loader {
+  --fill: 0;
+
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 2rem;
+  padding-inline: 16px;
+  background: #050608;
+  color: #e8eef4;
+  transition: opacity var(--loader-fade) ease;
+}
+
+.loader[data-done='true'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* The letters wait for their font, then come in softly. */
+.loader__brand,
+.loader__status {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.loader[data-font-ready='true'] .loader__brand,
+.loader[data-font-ready='true'] .loader__status {
+  opacity: 1;
+}
+
+/* Outline and fill are the same word, one over the other. Line height near
+   the capitals' height keeps the box on the letters, so the fill starts at
+   their feet and ends at their tops. */
+.loader__brand {
+  position: relative;
+  margin: 0;
+  font: 700 clamp(4.5rem, 18vw, 13rem) / 0.82 var(--font-display);
+  letter-spacing: 0.04em;
+}
+
+.loader__outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(232 238 244 / 0.28);
+}
+
+/* The drink: dark red at the bottom, lighter toward its surface, as if lit from
+   above, and only up to the current level. */
+.loader__fill {
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  background: linear-gradient(to top, #5c000f, #b3001f 60%, #ff4d6a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  clip-path: inset(calc((1 - var(--fill)) * 100%) 0 0 0);
+}
+
+.loader__status {
+  display: flex;
+  gap: 1.25rem;
+  margin: 0;
+  font: 400 0.75rem/1 var(--font-display);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.loader__status > :first-child {
+  opacity: 0.6;
+}
+
+.loader__percent {
+  font-variant-numeric: tabular-nums;
+}
