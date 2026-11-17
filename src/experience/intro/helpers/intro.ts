@@ -1,5 +1,7 @@
 import { MathUtils } from 'three';
 
+import { VIEW } from '@/experience/camera/helpers/framing';
+
 // The opening animation: once the can has loaded, the picture comes up out of
 // black while the can rises into its place from below, turning as it comes and
 // slowing down into its idle spin. Shares are of the animation's duration (0 … 1).
@@ -31,10 +33,12 @@ export const introArrival = (progress: number) =>
 /**
  * How far below its place the can is during the opening (units, ≤ 0). Everything
  * that sits in the can and shows from outside (the drink's surface) drops by
- * the same amount, so the closed lid keeps covering it.
+ * the same amount, so the closed lid keeps covering it. Narrow screens see a
+ * taller view (camera/helpers/framing.ts), so the can starts lower there by the
+ * same factor and still begins out of the shot.
  */
 export const introDrop = (progress: number) =>
-  -INTRO_SETTINGS.rise * (1 - introArrival(progress));
+  -INTRO_SETTINGS.rise * VIEW.heightScale * (1 - introArrival(progress));
 
 /** How dark the picture is during the opening: 1 black, 0 fully up. */
 export const introDarkness = (progress: number) =>

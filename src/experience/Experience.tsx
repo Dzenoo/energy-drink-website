@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 
 import CameraRig from './camera/CameraRig';
+import { FRAMING } from './camera/helpers/framing';
 
 import Can from './can/Can';
 
@@ -27,8 +28,6 @@ import Studio from './studio/Studio';
 import { STUDIO } from './studio/helpers/studio';
 
 const SCENE = {
-  /** Vertical field of view (degrees). */
-  fov: 35,
   /** Near plane (units, 1 unit = 10 cm); small because the camera passes through a 2 cm opening. */
   near: 0.01,
   /** Far plane (units). */
@@ -47,7 +46,8 @@ const Experience: React.FC = () => (
   <Canvas
     style={{ position: 'fixed', inset: 0 }}
     dpr={SCENE.dpr}
-    camera={{ fov: SCENE.fov, near: SCENE.near, far: SCENE.far }}
+    // The field of view starts as composed; the camera rig fits it to the screen.
+    camera={{ fov: FRAMING.fov, near: SCENE.near, far: SCENE.far }}
     // Tone mapping and antialiasing happen in postprocessing, on the buffer the
     // scene is drawn into, so the renderer does neither itself.
     flat
