@@ -1,0 +1,10 @@
+/* Opacity on the wrapper makes no containing block, so the fixed children stay
+   fixed to the screen. */
+.intro-reveal {
+  opacity: 1;
+  transition: opacity 1.2s ease;
+}
+
+.intro-reveal[data-landed='false'] {
+  opacity: 0;
+}

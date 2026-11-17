@@ -1,5 +1,5 @@
-import { useLayoutEffect } from 'react';
-import { Mesh, MeshStandardMaterial } from 'three';
+import { useLayoutEffect, useRef } from 'react';
+import { type Group, Mesh, MeshStandardMaterial } from 'three';
 
 import { preloadModel, useModel } from '@/experience/shared/model/useModel';
 
@@ -7,6 +7,8 @@ import { addCondensation } from './condensation/helpers/condensation';
 import { useCondensation } from './condensation/useCondensation';
 
 import { bakePartTransform } from './helpers/bakePartTransform';
+
+import { useIntroRise } from './intro/useIntroRise';
 
 import { addLabel } from './label/helpers/label';
 import { useLabelText } from './label/useLabelText';
@@ -54,7 +56,9 @@ addCondensation(labelMaterial);
 
 const Can: React.FC = () => {
   const { scene } = useModel(MODEL_URL);
+  const intro = useRef<Group>(null);
 
+  useIntroRise(intro);
   useLabelText();
   useCondensation();
   useOpening(scene);
@@ -77,7 +81,12 @@ const Can: React.FC = () => {
     });
   }, [scene]);
 
-  return <primitive object={scene} {...wipeHandlers} />;
+  // The opening animation moves this group; the spin and the opening move the model inside it.
+  return (
+    <group ref={intro}>
+      <primitive object={scene} {...wipeHandlers} />
+    </group>
+  );
 };
 
 preloadModel(MODEL_URL);

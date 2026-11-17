@@ -9,9 +9,12 @@ import {
 } from 'three';
 import { useFrame } from '@react-three/fiber';
 
+import { introGlow } from '@/experience/intro/helpers/intro';
+
 import fragmentShader from '@/shaders/studio/backLight/backLight.frag.glsl';
 import vertexShader from '@/shaders/studio/backLight/backLight.vert.glsl';
 
+import { INTRO } from '@/store/intro/intro';
 import { SCROLL } from '@/store/scroll/scroll';
 
 import { BACK_LIGHT, BACK_LIGHT_EXTENT } from './helpers/backLight';
@@ -52,7 +55,10 @@ const BackLight: React.FC = () => {
   useFrame(() => {
     if (!mesh.current) return;
     const [start, end] = BACK_LIGHT.fade;
-    const shown = 1 - MathUtils.smoothstep(SCROLL.progress, start, end);
+    // Comes on with the can's arrival, goes out as the camera leaves.
+    const shown =
+      introGlow(INTRO.progress) *
+      (1 - MathUtils.smoothstep(SCROLL.progress, start, end));
     uniforms.uBackLightFade.value = shown;
     mesh.current.visible = shown > 0;
   });

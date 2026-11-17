@@ -15,6 +15,8 @@ import Liquid from './inside/liquid/Liquid';
 import Strawberries from './inside/strawberries/Strawberries';
 import InnerWall from './inside/wall/InnerWall';
 
+import Intro from './intro/Intro';
+
 import Postprocessing from './postprocessing/Postprocessing';
 
 import BackLight from './studio/backLight/BackLight';
@@ -62,10 +64,13 @@ const Experience: React.FC = () => (
       <Bubbles />
       <LightRays />
 
-      {/* The loader comes in phase 5; until then the can simply appears once loaded. */}
+      {/* The loader comes in phase 5; until then the picture stays black until
+          the models have loaded, and the opening animation starts with them. */}
       <Suspense fallback={null}>
         <Can />
         <Strawberries />
+
+        <Intro />
       </Suspense>
     </BeforeEnding>
 

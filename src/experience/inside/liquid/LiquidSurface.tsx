@@ -1,15 +1,20 @@
-import { useLayoutEffect, useMemo } from 'react';
+import { useLayoutEffect, useMemo, useRef } from 'react';
 import {
   Color,
   DoubleSide,
+  type Mesh,
   ShaderMaterial,
   type Texture,
   Vector2,
 } from 'three';
 import { useFrame } from '@react-three/fiber';
 
+import { introDrop } from '@/experience/intro/helpers/intro';
+
 import fragmentShader from '@/shaders/inside/liquid/surface.frag.glsl';
 import vertexShader from '@/shaders/inside/liquid/surface.vert.glsl';
+
+import { INTRO } from '@/store/intro/intro';
 
 import { DRINK_UNIFORMS } from './helpers/drinkUniforms';
 import { LIQUID } from './helpers/liquid';
@@ -24,6 +29,8 @@ const SEGMENTS = 64;
 // surface takes the drink's color for each look direction, together with the
 // backdrop and the fog.
 const LiquidSurface: React.FC = () => {
+  const mesh = useRef<Mesh>(null);
+
   const { material, uniforms } = useMemo(() => {
     const uniforms = {
       // The drink's colors and fog, shared with the backdrop and the wall.
@@ -62,11 +69,19 @@ const LiquidSurface: React.FC = () => {
     uniforms.uTime.value += delta;
     // The studio's cube map, the same one the can's metal mirrors.
     uniforms.uEnvironment.value = scene.environment;
+
+    // Drops with the can while it rises in, so the closed lid keeps covering it.
+    // It stays drawn instead of hidden, so its shader is still built on load.
+    if (mesh.current) {
+      const y = LIQUID.height + introDrop(INTRO.progress);
+      if (mesh.current.position.y !== y) mesh.current.position.y = y;
+    }
   });
 
   return (
     // A circle lies in the xy plane; turned flat, its front faces up.
     <mesh
+      ref={mesh}
       position-y={LIQUID.height}
       rotation-x={-Math.PI / 2}
       material={material}

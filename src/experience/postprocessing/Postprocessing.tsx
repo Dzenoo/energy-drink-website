@@ -11,7 +11,9 @@ import {
 
 import { blackout } from '@/experience/ending/cut/helpers/cut';
 import { DRINK_UNIFORMS } from '@/experience/inside/liquid/helpers/drinkUniforms';
+import { introDarkness } from '@/experience/intro/helpers/intro';
 
+import { INTRO } from '@/store/intro/intro';
 import { SCROLL } from '@/store/scroll/scroll';
 
 import { BlackoutEffect } from './helpers/blackoutEffect';
@@ -40,7 +42,11 @@ const Postprocessing: React.FC = () => {
   );
 
   useFrame(({ camera }) => {
-    fade.blackout.value = blackout(SCROLL.progress);
+    // Black at the start, while the picture comes up, and on the cut to the end.
+    fade.blackout.value = Math.max(
+      introDarkness(INTRO.progress),
+      blackout(SCROLL.progress),
+    );
     const covered = splash(camera.position);
     froth.splash.value = covered;
     // The sway comes in with the dive, on the same value as the drink's color,
