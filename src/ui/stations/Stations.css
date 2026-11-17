@@ -1,32 +1,184 @@
-/* Placeholder layout until phase 5: one line of text per station, low in the frame. */
+/* Station text over the scene, inside the page frame (between the header and
+   the scroll status). Each station has two columns, set around its shot by
+   data-layout, and takes the colors of where the camera is from data-mood.
+   How much of it shows comes from --shown, written every frame by useStationFade. */
 .stations {
   position: fixed;
   inset: 0;
   pointer-events: none;
 }
 
+/* Phones: one column at the bottom of the frame, where the thumb is and the
+   shots leave the most room. */
 .station {
+  --shown: 0;
+  /* Space kept clear between the bars and the station text. */
+  --clearance: 1.25rem;
+
   position: absolute;
-  inset-inline: 0;
-  bottom: 12vh;
-  padding-inline: 16px;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 0.6s ease;
+  inset: calc(var(--frame-top) + var(--bar) + var(--clearance))
+    var(--frame-right) calc(var(--frame-bottom) + var(--bar) + var(--clearance))
+    var(--frame-left);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: end;
+  row-gap: 1.75rem;
+  opacity: var(--shown);
+  color: var(--station-text);
+  /* A soft dark halo keeps the text readable over bright spots in the scene. */
+  text-shadow: 0 1px 24px rgb(0 0 0 / 0.4);
 }
 
-.station[data-active='true'] {
-  opacity: 1;
+/* Text at the top, details at the bottom: the shot keeps the middle. */
+.station[data-layout='split'] {
+  align-content: space-between;
 }
 
-/* Left padding matches letter-spacing, which also lands after the last letter,
-   so the text stays optically centered. */
+.station[data-layout='top'] {
+  align-content: start;
+}
+
+/* Both columns rise the last few pixels into place as they fade in, the
+   details a little more, so the two arrive one after the other. */
+.station__main {
+  max-width: 36rem;
+  transform: translateY(calc((1 - var(--shown)) * 0.75rem));
+}
+
+.station__details {
+  transform: translateY(calc((1 - var(--shown)) * 1.75rem));
+}
+
+/* Wide screens: text on the left, details on the right, the shot between them. */
+@media (min-width: 900px) {
+  .station {
+    grid-template-columns: minmax(0, 36rem) minmax(0, 20rem);
+    justify-content: space-between;
+    align-content: stretch;
+    align-items: center;
+    column-gap: 4rem;
+  }
+
+  .station[data-layout='split'] {
+    align-content: stretch;
+  }
+
+  .station[data-layout='split'] .station__main {
+    align-self: start;
+  }
+
+  .station[data-layout='split'] .station__details {
+    align-self: end;
+  }
+
+  .station[data-layout='top'] {
+    align-content: stretch;
+    align-items: start;
+  }
+}
+
+/* Cold: icy white and blue, like the can in the studio. */
+.station[data-mood='cold'] {
+  --station-text: #e8eef4;
+  --station-accent: #9ec3e0;
+}
+
+/* Warm: pale pink cream and strawberry, like the drink. */
+.station[data-mood='warm'] {
+  --station-text: #fff0ec;
+  --station-accent: #ff9aab;
+}
+
+.station__eyebrow {
+  margin: 0 0 1rem;
+  font: 400 0.75rem/1.4 var(--font-display);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--station-accent);
+}
+
 .station__title {
   margin: 0;
-  padding-left: 0.3em;
-  font:
-    400 0.875rem/1.4 system-ui,
-    sans-serif;
-  letter-spacing: 0.3em;
+  font: 700 clamp(2.5rem, 7vw, 6.5rem) / 0.92 var(--font-display);
+  letter-spacing: 0.01em;
   text-transform: uppercase;
+}
+
+.station__lead {
+  max-width: 34ch;
+  margin: 1.25rem 0 0;
+  font: 400 clamp(1rem, 1.3vw, 1.2rem) / 1.5 var(--font-body);
+  opacity: 0.85;
+}
+
+/* The wording follows the input: "drag" for a mouse, "rub" for a finger. */
+.station__hint {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 1.5rem 0 0;
+  font: 400 0.75rem/1.4 var(--font-display);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--station-accent);
+}
+
+.station__hint::before {
+  content: '';
+  width: 1.5rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.station__hint-touch {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .station__hint-pointer {
+    display: none;
+  }
+
+  .station__hint-touch {
+    display: inline;
+  }
+}
+
+.station__restart {
+  margin-top: 1.75rem;
+  padding: 1em 2em;
+  border: 1px solid var(--station-accent);
+  border-radius: 999px;
+  background: var(--station-accent);
+  color: #1a0508;
+  font: 500 0.875rem/1 var(--font-display);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  /* The layer above the scene lets the pointer through; the button takes it back. */
+  pointer-events: auto;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.station__restart:hover {
+  background: transparent;
+  color: var(--station-accent);
+}
+
+.station__restart:focus-visible {
+  outline: 2px solid var(--station-accent);
+  outline-offset: 4px;
+}
+
+.station__fineprint {
+  max-width: 44ch;
+  margin: 1rem 0 0;
+  font: 400 0.75rem/1.5 var(--font-body);
+  opacity: 0.55;
+}
+
+.station__restart + .station__fineprint {
+  margin-top: 2rem;
 }

@@ -1,0 +1,41 @@
+.nutrition {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 0.8125rem/1.3 var(--font-body);
+  font-variant-numeric: tabular-nums;
+}
+
+.nutrition__caption {
+  margin-bottom: 0.75rem;
+  font: 400 0.6875rem/1.3 var(--font-display);
+  letter-spacing: 0.18em;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--station-accent);
+}
+
+.nutrition th,
+.nutrition td {
+  padding: 0.55rem 0;
+  border-top: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  text-align: right;
+  font-weight: 400;
+}
+
+.nutrition th[scope='row'] {
+  text-align: left;
+}
+
+.nutrition thead th,
+.nutrition thead td {
+  border-top: 0;
+  font: 400 0.6875rem/1.3 var(--font-display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.nutrition td + td,
+.nutrition th + th {
+  padding-left: 1rem;
+}

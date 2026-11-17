@@ -1,0 +1,115 @@
+.header {
+  position: fixed;
+  top: var(--frame-top);
+  left: var(--frame-left);
+  right: var(--frame-right);
+  height: var(--bar);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #e8eef4;
+  /* The bar lets the pointer through to the can; only its buttons take it. */
+  pointer-events: none;
+}
+
+.header button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.header button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+.header__brand {
+  font: 700 1.25rem/1 var(--font-display);
+  letter-spacing: 0.14em;
+}
+
+.header__nav {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Phones: each station is a short bar, the current one long and bright.
+   The button around it stays 44px wide and tall, a size a finger can hit. */
+.header__link {
+  display: grid;
+  place-items: center;
+  min-width: 2.75rem;
+  height: var(--bar);
+}
+
+.header__link::after {
+  content: '';
+  width: 0.875rem;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.35;
+  transition:
+    width 0.4s ease,
+    opacity 0.4s ease;
+}
+
+.header__link[aria-current='step']::after {
+  width: 1.75rem;
+  opacity: 1;
+}
+
+.header__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Wide screens: the names of the stations, the current one underlined. */
+@media (min-width: 900px) {
+  .header__nav {
+    gap: 2rem;
+  }
+
+  .header__link {
+    position: relative;
+    min-width: 0;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+  }
+
+  .header__link:hover,
+  .header__link[aria-current='step'] {
+    opacity: 1;
+  }
+
+  .header__link::after {
+    position: absolute;
+    left: 0;
+    bottom: 0.6rem;
+    width: 0;
+    opacity: 1;
+  }
+
+  .header__link[aria-current='step']::after {
+    width: 100%;
+  }
+
+  .header__label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    font: 400 0.75rem/1 var(--font-display);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+}

@@ -21,4 +21,14 @@ Author: Copyright 2016 The Oswald Project Authors
         (https://github.com/googlefonts/OswaldFont)
 License: SIL Open Font License 1.1 (full text: OFL-Oswald.txt)
 Source: Google Fonts, packaged by Fontsource (@fontsource-variable/oswald)
-Used in: the text on the can's label (src/experience/can/label/utils/labelText.ts)
+Used in: the text on the can's label (src/experience/can/label/helpers/labelText.ts)
+         and the page's headings, labels and numbers (src/ui/)
+
+--------------------------------------------------------------------------------
+
+Manrope (font, variable weight)
+Author: Copyright 2019 The Manrope Project Authors
+        (https://github.com/sharanda/manrope)
+License: SIL Open Font License 1.1 (full text: OFL-Manrope.txt)
+Source: Google Fonts, packaged by Fontsource (@fontsource-variable/manrope)
+Used in: the page's running text (src/ui/)

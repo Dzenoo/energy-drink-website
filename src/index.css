@@ -2,6 +2,22 @@
   color-scheme: dark;
   color: #e8ecf0;
   background: #050608;
+
+  /* Page frame shared by the header, the stations and the scroll status. */
+  /* Side margin: 16px on phones, growing with the screen. */
+  --gutter: clamp(16px, 5vw, 72px);
+  /* Top and bottom margin of the header and the scroll status. */
+  --edge: clamp(16px, 3vh, 32px);
+  /* Height of the header and of the scroll status bar. */
+  --bar: 2.75rem;
+  /* Margins never smaller than the safe area on phones with a notch or rounded corners. */
+  --frame-top: max(var(--edge), env(safe-area-inset-top));
+  --frame-bottom: max(var(--edge), env(safe-area-inset-bottom));
+  --frame-left: max(var(--gutter), env(safe-area-inset-left));
+  --frame-right: max(var(--gutter), env(safe-area-inset-right));
+
+  --font-display: 'Oswald Variable', system-ui, sans-serif;
+  --font-body: 'Manrope Variable', system-ui, sans-serif;
 }
 
 html,

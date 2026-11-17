@@ -1,0 +1,93 @@
+.scroll-status {
+  position: fixed;
+  bottom: var(--frame-bottom);
+  left: var(--frame-left);
+  right: var(--frame-right);
+  height: var(--bar);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #e8eef4;
+  font: 400 0.75rem/1 var(--font-display);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.scroll-status p {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.scroll-status__count {
+  gap: 0;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.6;
+}
+
+.scroll-status__current {
+  opacity: 1;
+}
+
+.scroll-status__label {
+  margin-left: 1.25rem;
+  padding-left: 1.25rem;
+  border-left: 1px solid currentColor;
+}
+
+.scroll-status__hint {
+  gap: 0.75rem;
+  transition: opacity 0.4s ease;
+}
+
+.scroll-status__hint[data-hidden='true'] {
+  opacity: 0;
+}
+
+.scroll-status__hint-touch {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .scroll-status__hint-pointer {
+    display: none;
+  }
+
+  .scroll-status__hint-touch {
+    display: inline;
+  }
+}
+
+/* A thin line with a light running down it, over and over: "keep going". */
+.scroll-status__arrow {
+  position: relative;
+  width: 1px;
+  height: 1.75rem;
+  overflow: hidden;
+  background: color-mix(in srgb, currentColor 25%, transparent);
+}
+
+.scroll-status__arrow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  animation: scroll-status-run 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll-status-run {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-status__arrow::after {
+    animation: none;
+    transform: none;
+  }
+}

@@ -10,16 +10,20 @@ type ScrollStore = {
   station: number;
   /** Moves one station forward (1) or back (-1), stopping at both ends. */
   step: (direction: 1 | -1) => void;
+  /** Goes to a station; the camera flies there through every station in between. */
+  goTo: (station: number) => void;
 };
+
+const clampStation = (station: number) =>
+  Math.min(Math.max(station, 0), STATION_COUNT - 1);
 
 // The station changes only on input, so it lives in Zustand: the HTML re-renders
 // on it, while the 3D side reads it with getState() inside the frame loop.
 export const useScrollStore = create<ScrollStore>((set) => ({
   station: 0,
   step: (direction) =>
-    set(({ station }) => ({
-      station: Math.min(Math.max(station + direction, 0), STATION_COUNT - 1),
-    })),
+    set(({ station }) => ({ station: clampStation(station + direction) })),
+  goTo: (station) => set({ station: clampStation(station) }),
 }));
 
 /**

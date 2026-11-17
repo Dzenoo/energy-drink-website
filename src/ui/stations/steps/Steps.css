@@ -1,0 +1,51 @@
+.steps {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.steps__item {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  align-items: baseline;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+}
+
+.steps__number {
+  font: 400 0.75rem/1 var(--font-display);
+  letter-spacing: 0.18em;
+  color: var(--station-accent);
+}
+
+.steps__title {
+  margin: 0;
+  font: 600 clamp(1rem, 1.6vw, 1.5rem) / 1.2 var(--font-display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Phones keep the titles only, so the shot is not covered. */
+.steps__text {
+  display: none;
+  grid-column: 2;
+  margin: 0.4rem 0 0;
+  font: 400 0.875rem/1.45 var(--font-body);
+  opacity: 0.75;
+}
+
+@media (min-width: 900px) {
+  .steps {
+    gap: 1.5rem;
+  }
+
+  .steps__item {
+    padding-top: 1rem;
+  }
+
+  .steps__text {
+    display: block;
+  }
+}

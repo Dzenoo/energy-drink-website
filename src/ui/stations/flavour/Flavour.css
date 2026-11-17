@@ -1,0 +1,58 @@
+.flavour__heading {
+  margin: 0 0 0.75rem;
+  font: 400 0.6875rem/1.3 var(--font-display);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--station-accent);
+}
+
+/* Phones: the notes in one row, split by thin lines. */
+.flavour__notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flavour__note {
+  font: 600 clamp(1rem, 1.6vw, 1.5rem) / 1.2 var(--font-display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.flavour__note + .flavour__note {
+  padding-left: 1rem;
+  border-left: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+}
+
+.flavour__ingredients {
+  display: none;
+  margin-top: 1.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+}
+
+.flavour__list {
+  margin: 0;
+  font: 400 0.8125rem/1.55 var(--font-body);
+  opacity: 0.75;
+}
+
+/* Wide screens: notes one under another, then the ingredient list. */
+@media (min-width: 900px) {
+  .flavour__notes {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .flavour__note + .flavour__note {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .flavour__ingredients {
+    display: block;
+  }
+}
